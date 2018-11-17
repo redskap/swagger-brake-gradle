@@ -27,6 +27,8 @@ repositories {
 dependencies {
     compile("io.redskap:swagger-brake:0.0.1-SNAPSHOT")
     compileOnly "org.projectlombok:lombok:1.18.2"
-    testCompile group: 'junit', name: 'junit', version: '4.12'
+    testCompile("org.spockframework:spock-core:1.2-groovy-2.4") {
+        exclude group:'org.codehaus.groovy'
+    }
     testCompile "org.assertj:assertj-core:3.11.1"
 }
