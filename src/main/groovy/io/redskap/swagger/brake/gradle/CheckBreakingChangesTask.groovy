@@ -8,6 +8,7 @@ import org.gradle.api.provider.Property
 import org.gradle.api.tasks.TaskAction
 
 class CheckBreakingChangesTask extends DefaultTask {
+    // Using Object everywhere because of https://github.com/gradle/gradle/pull/6536
     Property<Object> newApi = getProject().getObjects().property(Object.class)
     Property<Object> mavenRepoUrl = getProject().getObjects().property(Object.class)
     Property<Object> groupId = getProject().getObjects().property(Object.class)
