@@ -1,4 +1,4 @@
-# Swagger Brake Gradle plugin
+# Swagger Brake Gradle plugin [![Build Status](https://travis-ci.com/redskap/swagger-brake-gradle.svg?branch=master)](https://travis-ci.com/redskap/swagger-brake-gradle)
 Gradle plugin for [Swagger Brake](https://github.com/redskap/swagger-brake).
 
 The plugin is building on Swagger Brake's latest artifact resolution feature to determine the so 
