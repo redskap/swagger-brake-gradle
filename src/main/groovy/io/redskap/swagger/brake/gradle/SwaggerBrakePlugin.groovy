@@ -1,5 +1,6 @@
 package io.redskap.swagger.brake.gradle
 
+import io.redskap.swagger.brake.gradle.task.CheckBreakingChangesTask
 import org.gradle.api.GradleException
 import org.gradle.api.Plugin
 import org.gradle.api.Project

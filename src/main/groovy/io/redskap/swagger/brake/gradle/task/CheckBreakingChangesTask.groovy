@@ -1,8 +1,6 @@
-package io.redskap.swagger.brake.gradle
+package io.redskap.swagger.brake.gradle.task
 
-import io.redskap.swagger.brake.runner.Options
-import io.redskap.swagger.brake.runner.OutputFormat
-import io.redskap.swagger.brake.runner.Starter
+
 import org.gradle.api.DefaultTask
 import org.gradle.api.provider.Property
 import org.gradle.api.tasks.Input
@@ -23,15 +21,18 @@ class CheckBreakingChangesTask extends DefaultTask {
     @Input
     Property<Object> outputFormat = getProject().getObjects().property(Object.class)
 
+    private final CheckBreakingChangesTaskExecutor executor = new CheckBreakingChangesTaskExecutor()
+
     @TaskAction
     void performCheck() {
-        Options options = new Options()
-        options.setNewApiPath(newApi.get().toString())
-        options.setMavenRepoUrl(mavenRepoUrl.get().toString())
-        options.setGroupId(groupId.get().toString())
-        options.setArtifactId(artifactId.get().toString())
-        options.setOutputFilePath(outputFilePath.get().toString())
-        options.setOutputFormat(OutputFormat.valueOf(outputFormat.get().toString()))
-        Starter.start(options)
+        def parameter = new CheckBreakingChangesTaskParameter()
+        parameter.newApi = newApi.get().toString()
+        parameter.mavenRepoUrl = mavenRepoUrl.get().toString()
+        parameter.groupId = groupId.get().toString()
+        parameter.artifactId = artifactId.get().toString()
+        parameter.outputFilePath = outputFilePath.get().toString()
+        parameter.outputFormat = outputFormat.get().toString()
+
+        executor.execute(parameter)
     }
 }
