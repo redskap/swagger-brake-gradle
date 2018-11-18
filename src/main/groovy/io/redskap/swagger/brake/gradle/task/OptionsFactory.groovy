@@ -11,7 +11,11 @@ class OptionsFactory {
         options.setGroupId(parameter.groupId)
         options.setArtifactId(parameter.artifactId)
         options.setOutputFilePath(parameter.outputFilePath)
-        options.setOutputFormat(OutputFormat.valueOf(parameter.outputFormat))
+        options.setOutputFormat(resolveOutputFormat(parameter))
         return options
+    }
+
+    private static OutputFormat resolveOutputFormat(CheckBreakingChangesTaskParameter parameter) {
+        return OutputFormat.valueOf(parameter.outputFormat.toUpperCase())
     }
 }
