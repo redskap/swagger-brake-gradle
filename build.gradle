@@ -7,15 +7,14 @@ plugins {
 }
 
 group 'io.redskap'
-version '0.0.1-SNAPSHOT'
+version '0.1.0'
 
 sourceCompatibility = 1.8
 
 gradlePlugin {
     plugins {
         swaggerBrake {
-            id = 'swagger-brake'
-            description = 'Swagger Brake Gradle plugin'
+            id = 'io.redskap.swagger-brake'
             implementationClass = 'io.redskap.swagger.brake.gradle.SwaggerBrakePlugin'
         }
     }
@@ -24,7 +23,14 @@ gradlePlugin {
 pluginBundle {
     website = 'http://redskap.io'
     vcsUrl = 'https://github.com/redskap/swagger-brake-gradle'
+    description = 'A plugin to check Swagger definition files for any breaking API changes'
     tags = ['swagger', 'api', 'breaking-change', 'REST']
+
+    plugins {
+        swaggerBrake {
+            displayName = 'Swagger Brake Gradle plugin'
+        }
+    }
 }
 
 repositories {

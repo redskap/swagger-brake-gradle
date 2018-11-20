@@ -14,12 +14,12 @@ There are 2 properties which are mandatory for this reason:
 Apply the plugin in `build.gradle`:
 ```groovy
 plugins {
-    id 'swagger-brake'
+    id 'io.redskap.swagger-brake'
 }
 ```
 
 ```groovy
-apply plugin: 'swagger-brake'
+apply plugin: 'io.redskap.swagger-brake'
 ```
 
 Configure the plugin:
