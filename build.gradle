@@ -24,7 +24,7 @@ gradlePlugin {
 pluginBundle {
     website = 'http://redskap.io'
     vcsUrl = 'https://github.com/redskap/swagger-brake-gradle'
-    tags = []
+    tags = ['swagger', 'api', 'breaking-change', 'REST']
 }
 
 repositories {
