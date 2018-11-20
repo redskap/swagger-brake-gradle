@@ -3,6 +3,7 @@ plugins {
     id 'java-gradle-plugin'
     id 'maven'
     id 'maven-publish'
+    id 'com.gradle.plugin-publish' version '0.10.0'
 }
 
 group 'io.redskap'
@@ -14,9 +15,16 @@ gradlePlugin {
     plugins {
         swaggerBrake {
             id = 'swagger-brake'
+            description = 'Swagger Brake Gradle plugin'
             implementationClass = 'io.redskap.swagger.brake.gradle.SwaggerBrakePlugin'
         }
     }
+}
+
+pluginBundle {
+    website = 'http://redskap.io'
+    vcsUrl = 'https://github.com/redskap/swagger-brake-gradle'
+    tags = []
 }
 
 repositories {
