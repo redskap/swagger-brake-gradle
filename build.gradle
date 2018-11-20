@@ -25,7 +25,7 @@ repositories {
 }
 
 dependencies {
-    compile "io.redskap:swagger-brake:0.0.1-SNAPSHOT"
+    compile "io.redskap:swagger-brake:0.1.0"
 
     testCompile ("org.spockframework:spock-core:1.2-groovy-2.4") {
         exclude group:'org.codehaus.groovy'
