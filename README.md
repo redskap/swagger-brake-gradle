@@ -19,6 +19,14 @@ plugins {
 ```
 
 ```groovy
+buildscript {
+  repositories {
+    mavenCentral()
+  }
+  dependencies {
+    classpath "io.redskap:swagger-brake-gradle:0.1.0"
+  }
+}
 apply plugin: 'io.redskap.swagger-brake'
 ```
 
