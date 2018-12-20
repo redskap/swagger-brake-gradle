@@ -26,7 +26,7 @@ buildscript {
     mavenCentral()
   }
   dependencies {
-    classpath "io.redskap:swagger-brake-gradle:0.1.0"
+    classpath "io.redskap:swagger-brake-gradle:0.2.1"
   }
 }
 apply plugin: 'io.redskap.swagger-brake'
