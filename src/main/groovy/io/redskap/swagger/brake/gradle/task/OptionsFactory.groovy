@@ -1,5 +1,6 @@
 package io.redskap.swagger.brake.gradle.task
 
+import com.google.common.collect.ImmutableSet
 import io.redskap.swagger.brake.runner.Options
 import io.redskap.swagger.brake.runner.OutputFormat
 
@@ -11,11 +12,13 @@ class OptionsFactory {
         options.setGroupId(parameter.groupId)
         options.setArtifactId(parameter.artifactId)
         options.setOutputFilePath(parameter.outputFilePath)
-        options.setOutputFormat(resolveOutputFormat(parameter))
+        options.setOutputFormats(resolveOutputFormat(parameter))
+        options.setMavenRepoUsername(parameter.mavenRepoUsername)
+        options.setMavenRepoPassword(parameter.mavenRepoPassword)
         return options
     }
 
-    private static OutputFormat resolveOutputFormat(CheckBreakingChangesTaskParameter parameter) {
-        return OutputFormat.valueOf(parameter.outputFormat.toUpperCase())
+    private static Set<OutputFormat> resolveOutputFormat(CheckBreakingChangesTaskParameter parameter) {
+        return ImmutableSet.of(OutputFormat.valueOf(parameter.outputFormat.toUpperCase()))
     }
 }

@@ -15,6 +15,8 @@ class OptionsFactoryTest extends Specification {
         parameter.groupId = "groupId"
         parameter.outputFilePath = "outputFilePath"
         parameter.outputFormat = "HTML"
+        parameter.mavenRepoUsername = "username"
+        parameter.mavenRepoPassword = "password"
 
         when:
         def result = underTest.create(parameter)
@@ -25,7 +27,9 @@ class OptionsFactoryTest extends Specification {
         assert result.artifactId == parameter.artifactId
         assert result.groupId == parameter.groupId
         assert result.outputFilePath == parameter.outputFilePath
-        assert result.outputFormat.name() == 'HTML'
+        assert result.mavenRepoUsername == parameter.mavenRepoUsername
+        assert result.mavenRepoPassword == parameter.mavenRepoPassword
+        assert result.outputFormats[0].name() == 'HTML'
     }
 
     def "OutputFormat is accepted when it's a lowercase value"() {
@@ -47,7 +51,7 @@ class OptionsFactoryTest extends Specification {
         assert result.artifactId == parameter.artifactId
         assert result.groupId == parameter.groupId
         assert result.outputFilePath == parameter.outputFilePath
-        assert result.outputFormat.name() == 'HTML'
+        assert result.outputFormats[0].name() == 'HTML'
     }
 
     def "create throws exception when unavailable output format"() {

@@ -9,20 +9,27 @@ import org.gradle.api.provider.Property
 class SwaggerBrakeExtension {
     private static final Logger logger = Logging.getLogger(SwaggerBrakeExtension)
 
-    Property<Object> newApi
-    Property<Object> mavenRepoUrl
-    Property<Object> groupId
-    Property<Object> artifactId
-    Property<Object> outputFilePath
-    Property<Object> outputFormat
+    final Property<Object> newApi
+    final Property<Object> mavenRepoUrl
+    final Property<Object> groupId
+    final Property<Object> artifactId
+    final Property<Object> outputFilePath
+    final Property<Object> outputFormat
+    final Property<Object> mavenRepoUsername
+    final Property<Object> mavenRepoPassword
+
+    final Property<Boolean> testModeEnabled
 
     SwaggerBrakeExtension(Project project) {
-        this.newApi = project.getObjects().property(Object.class)
-        this.mavenRepoUrl = project.getObjects().property(Object.class)
-        this.groupId = project.getObjects().property(Object.class)
-        this.artifactId = project.getObjects().property(Object.class)
-        this.outputFilePath = project.getObjects().property(Object.class)
-        this.outputFormat = project.getObjects().property(Object.class)
+        this.newApi = project.getObjects().property(Object)
+        this.mavenRepoUrl = project.getObjects().property(Object)
+        this.groupId = project.getObjects().property(Object)
+        this.artifactId = project.getObjects().property(Object)
+        this.outputFilePath = project.getObjects().property(Object)
+        this.outputFormat = project.getObjects().property(Object)
+        this.mavenRepoUsername = project.getObjects().property(Object)
+        this.mavenRepoPassword = project.getObjects().property(Object)
+        this.testModeEnabled = project.getObjects().property(Boolean)
         applyDefaults(project)
     }
 
@@ -31,6 +38,17 @@ class SwaggerBrakeExtension {
         applyDefaultGroupId(project)
         applyDefaultOutputFilePath(project)
         applyDefaultOutputFormat()
+        applyMavenRepoAuth()
+        applyTestMode()
+    }
+
+    private applyTestMode() {
+        this.testModeEnabled.set(false)
+    }
+
+    private applyMavenRepoAuth() {
+        this.mavenRepoUsername.set("")
+        this.mavenRepoPassword.set("")
     }
 
     private applyDefaultArtifactId(Project project) {

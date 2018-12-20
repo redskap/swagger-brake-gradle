@@ -7,7 +7,8 @@ class CheckBreakingChangesTaskParameter {
     String artifactId
     String outputFilePath
     String outputFormat
-
+    String mavenRepoUsername
+    String mavenRepoPassword
 
     @Override
     String toString() {
@@ -18,6 +19,8 @@ class CheckBreakingChangesTaskParameter {
                 ", artifactId='" + artifactId + '\'' +
                 ", outputFilePath='" + outputFilePath + '\'' +
                 ", outputFormat='" + outputFormat + '\'' +
+                ", mavenRepoUsername='" + mavenRepoUsername + '\'' +
+                ", mavenRepoPassword='" + mavenRepoPassword + '\'' +
                 '}';
     }
 }

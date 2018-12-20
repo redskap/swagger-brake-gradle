@@ -51,6 +51,7 @@ class SwaggerBrakePluginTest extends Specification {
         assert extension.artifactId.get() == project.name
         assert extension.outputFilePath.get().startsWith("${project.buildDir}/swagger-brake")
         assert extension.outputFormat.get() == 'HTML'
+        assert extension.testModeEnabled.get() == false
     }
 
     def "Plugin properties can be set with simple strings"() {
@@ -65,7 +66,8 @@ class SwaggerBrakePluginTest extends Specification {
         def expectedArtifactId = 'artifact-id'
         def expectedOutputFilePath = 'output-path'
         def expectedOutputFormat = 'JSON'
-
+        def expectedMavenRepoUsername = 'username'
+        def expectedMavenRepoPassword = 'password'
 
         when:
         project.pluginManager.apply(SwaggerBrakePlugin)
@@ -76,6 +78,8 @@ class SwaggerBrakePluginTest extends Specification {
             artifactId = expectedArtifactId
             outputFilePath = expectedOutputFilePath
             outputFormat = expectedOutputFormat
+            mavenRepoUsername = expectedMavenRepoUsername
+            mavenRepoPassword = expectedMavenRepoPassword
         }))
 
         then:
@@ -87,6 +91,8 @@ class SwaggerBrakePluginTest extends Specification {
         assert extension.artifactId.get() == expectedArtifactId
         assert extension.outputFilePath.get() == expectedOutputFilePath
         assert extension.outputFormat.get() == expectedOutputFormat
+        assert extension.mavenRepoUsername.get() == expectedMavenRepoUsername
+        assert extension.mavenRepoPassword.get() == expectedMavenRepoPassword
     }
 
 
