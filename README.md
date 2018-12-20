@@ -9,6 +9,8 @@ There are 2 properties which are mandatory for this reason:
 - `mavenRepoUrl`
 - `newApi`
 
+An example project can be found [here](https://github.com/redskap/swagger-brake-example/tree/master/swagger-brake-gradle-example).
+
 ## Usage
 
 Apply the plugin in `build.gradle`:
@@ -41,6 +43,8 @@ swaggerBrake {
 ## Plugin configuration
 The following plugin properties are configurable:
 - `mavenRepoUrl` - The Maven repository URL where the previous version of the artifact can be found.
+- `mavenRepoUsername` - The username for accessing the Maven repository.
+- `mavenRepoPassword` - The password for accessing the Maven repository.
 - `newApi` - The path of the API file with which the latest version will be compared to
 - `groupId` - The groupId of the artifact. Defaults to `project.group`
 - `artifactId` - The artifactId. Defaults to `project.name`
