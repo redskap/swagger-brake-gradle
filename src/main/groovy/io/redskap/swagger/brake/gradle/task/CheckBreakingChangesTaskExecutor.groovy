@@ -1,27 +1,29 @@
 package io.redskap.swagger.brake.gradle.task
 
+
 import io.redskap.swagger.brake.gradle.task.starter.StarterFactory
+import io.redskap.swagger.brake.runner.Options
 import io.redskap.swagger.brake.runner.exception.LatestArtifactDownloadException
 import org.gradle.api.logging.Logger
 import org.gradle.api.logging.Logging
 
+import static org.apache.commons.collections4.CollectionUtils.isNotEmpty
+
 class CheckBreakingChangesTaskExecutor {
     private static final Logger logger = Logging.getLogger(CheckBreakingChangesTaskExecutor)
 
-    private final CheckBreakingChangesTaskParameterValidator parameterValidator
     private final StarterFactory starterFactory
 
-    CheckBreakingChangesTaskExecutor(CheckBreakingChangesTaskParameterValidator parameterValidator, StarterFactory starterFactory) {
-        this.parameterValidator = parameterValidator
+    CheckBreakingChangesTaskExecutor(StarterFactory starterFactory) {
         this.starterFactory = starterFactory
     }
 
-    void execute(CheckBreakingChangesTaskParameter parameter) {
-        logger.info("The following parameters are set for the task {}", parameter)
-        parameterValidator.validate(parameter)
-        def options = OptionsFactory.create(parameter)
+    void execute(Options options) {
         try {
-            starterFactory.create().start(options)
+            def bcs = starterFactory.create().start(options)
+            if (isNotEmpty(bcs)) {
+                throw new BreakingChangeDetectedException("Breaking change has been found. See report further details at ${options.outputFilePath}")
+            }
         } catch (LatestArtifactDownloadException e) {
             logger.quiet("Latest version of the artifact could not be retrieved from {} with {}:{}", options.mavenRepoUrl, options.groupId, options.artifactId)
             logger.quiet("Assuming this is the first version of the artifact, skipping check for breaking changes")

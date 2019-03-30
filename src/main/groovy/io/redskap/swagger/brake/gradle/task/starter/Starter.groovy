@@ -1,7 +1,8 @@
 package io.redskap.swagger.brake.gradle.task.starter
 
+import io.redskap.swagger.brake.core.BreakingChange
 import io.redskap.swagger.brake.runner.Options
 
 interface Starter {
-    void start(Options options)
+    Collection<BreakingChange> start(Options options)
 }

@@ -25,9 +25,11 @@ class CheckBreakingChangesTask extends DefaultTask {
     @Input
     final Property<Object> mavenRepoPassword = getProject().getObjects().property(Object.class)
 
-
     @Input
     final Property<Boolean> testModeEnabled = getProject().getObjects().property(Boolean.class)
+
+
+    private final CheckBreakingChangesTaskParameterValidator parameterValidator = new CheckBreakingChangesTaskParameterValidator()
 
     @TaskAction
     void performCheck() {
@@ -41,12 +43,14 @@ class CheckBreakingChangesTask extends DefaultTask {
         parameter.mavenRepoUsername = mavenRepoUsername.get().toString()
         parameter.mavenRepoPassword = mavenRepoPassword.get().toString()
 
-        createExecutor().execute(parameter)
+        logger.info("The following parameters are set for the task {}", parameter)
+        parameterValidator.validate(parameter)
+        def options = OptionsFactory.create(parameter)
+        createExecutor().execute(options)
     }
 
     private CheckBreakingChangesTaskExecutor createExecutor() {
         def factory = new StarterFactory(testModeEnabled.get())
-        def validator = new CheckBreakingChangesTaskParameterValidator()
-        return new CheckBreakingChangesTaskExecutor(validator, factory)
+        return new CheckBreakingChangesTaskExecutor(factory)
     }
 }

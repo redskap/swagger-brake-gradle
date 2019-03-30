@@ -42,6 +42,9 @@ repositories {
 dependencies {
     compile "io.redskap:swagger-brake:0.2.1"
 
+
+    testCompile "net.bytebuddy:byte-buddy:1.9.12"
+    testCompile "org.objenesis:objenesis:3.0.1"
     testCompile ("org.spockframework:spock-core:1.2-groovy-2.4") {
         exclude group:'org.codehaus.groovy'
     }
