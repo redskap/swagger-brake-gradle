@@ -23,6 +23,7 @@ class SwaggerBrakePlugin implements Plugin<Project>  {
             outputFormat = extension.outputFormat
             mavenRepoUsername = extension.mavenRepoUsername
             mavenRepoPassword = extension.mavenRepoPassword
+            deprecatedApiDeletionAllowed = extension.deprecatedApiDeletionAllowed
             testModeEnabled = extension.testModeEnabled
         }
         def checkTask = project.tasks.findByName("check")

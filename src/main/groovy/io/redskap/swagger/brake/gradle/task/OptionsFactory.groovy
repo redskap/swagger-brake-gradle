@@ -15,6 +15,7 @@ class OptionsFactory {
         options.setOutputFormats(resolveOutputFormat(parameter))
         options.setMavenRepoUsername(parameter.mavenRepoUsername)
         options.setMavenRepoPassword(parameter.mavenRepoPassword)
+        options.setDeprecatedApiDeletionAllowed(parameter.deprecatedApiDeletionAllowed)
         return options
     }
 

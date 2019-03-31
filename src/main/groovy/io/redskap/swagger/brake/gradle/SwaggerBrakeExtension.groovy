@@ -17,6 +17,7 @@ class SwaggerBrakeExtension {
     final Property<Object> outputFormat
     final Property<Object> mavenRepoUsername
     final Property<Object> mavenRepoPassword
+    final Property<Boolean> deprecatedApiDeletionAllowed
 
     final Property<Boolean> testModeEnabled
 
@@ -29,6 +30,7 @@ class SwaggerBrakeExtension {
         this.outputFormat = project.getObjects().property(Object)
         this.mavenRepoUsername = project.getObjects().property(Object)
         this.mavenRepoPassword = project.getObjects().property(Object)
+        this.deprecatedApiDeletionAllowed = project.getObjects().property(Boolean)
         this.testModeEnabled = project.getObjects().property(Boolean)
         applyDefaults(project)
     }
@@ -39,7 +41,12 @@ class SwaggerBrakeExtension {
         applyDefaultOutputFilePath(project)
         applyDefaultOutputFormat()
         applyMavenRepoAuth()
+        applyDeprecatedApiHandling()
         applyTestMode()
+    }
+
+    private applyDeprecatedApiHandling() {
+        this.deprecatedApiDeletionAllowed.set(true)
     }
 
     private applyTestMode() {

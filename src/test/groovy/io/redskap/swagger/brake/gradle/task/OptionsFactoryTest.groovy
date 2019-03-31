@@ -17,6 +17,7 @@ class OptionsFactoryTest extends Specification {
         parameter.outputFormat = "HTML"
         parameter.mavenRepoUsername = "username"
         parameter.mavenRepoPassword = "password"
+        parameter.deprecatedApiDeletionAllowed = true
 
         when:
         def result = underTest.create(parameter)
@@ -30,6 +31,7 @@ class OptionsFactoryTest extends Specification {
         assert result.mavenRepoUsername == parameter.mavenRepoUsername
         assert result.mavenRepoPassword == parameter.mavenRepoPassword
         assert result.outputFormats[0].name() == 'HTML'
+        assert result.deprecatedApiDeletionAllowed == parameter.deprecatedApiDeletionAllowed
     }
 
     def "OutputFormat is accepted when it's a lowercase value"() {

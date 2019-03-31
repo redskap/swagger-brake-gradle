@@ -9,24 +9,26 @@ import org.gradle.api.tasks.TaskAction
 class CheckBreakingChangesTask extends DefaultTask {
     // Using Object everywhere because of https://github.com/gradle/gradle/pull/6536
     @Input
-    final Property<Object> newApi = getProject().getObjects().property(Object.class)
+    final Property<Object> newApi = getProject().getObjects().property(Object)
     @Input
-    final Property<Object> mavenRepoUrl = getProject().getObjects().property(Object.class)
+    final Property<Object> mavenRepoUrl = getProject().getObjects().property(Object)
     @Input
-    final Property<Object> groupId = getProject().getObjects().property(Object.class)
+    final Property<Object> groupId = getProject().getObjects().property(Object)
     @Input
-    final Property<Object> artifactId = getProject().getObjects().property(Object.class)
+    final Property<Object> artifactId = getProject().getObjects().property(Object)
     @Input
-    final Property<Object> outputFilePath = getProject().getObjects().property(Object.class)
+    final Property<Object> outputFilePath = getProject().getObjects().property(Object)
     @Input
-    final Property<Object> outputFormat = getProject().getObjects().property(Object.class)
+    final Property<Object> outputFormat = getProject().getObjects().property(Object)
     @Input
-    final Property<Object> mavenRepoUsername = getProject().getObjects().property(Object.class)
+    final Property<Object> mavenRepoUsername = getProject().getObjects().property(Object)
     @Input
-    final Property<Object> mavenRepoPassword = getProject().getObjects().property(Object.class)
+    final Property<Object> mavenRepoPassword = getProject().getObjects().property(Object)
+    @Input
+    final Property<Boolean> deprecatedApiDeletionAllowed = getProject().getObjects().property(Boolean)
 
     @Input
-    final Property<Boolean> testModeEnabled = getProject().getObjects().property(Boolean.class)
+    final Property<Boolean> testModeEnabled = getProject().getObjects().property(Boolean)
 
 
     private final CheckBreakingChangesTaskParameterValidator parameterValidator = new CheckBreakingChangesTaskParameterValidator()
@@ -42,6 +44,7 @@ class CheckBreakingChangesTask extends DefaultTask {
         parameter.outputFormat = outputFormat.get().toString()
         parameter.mavenRepoUsername = mavenRepoUsername.get().toString()
         parameter.mavenRepoPassword = mavenRepoPassword.get().toString()
+        parameter.deprecatedApiDeletionAllowed = deprecatedApiDeletionAllowed.get()
 
         logger.info("The following parameters are set for the task {}", parameter)
         parameterValidator.validate(parameter)

@@ -40,7 +40,7 @@ repositories {
 }
 
 dependencies {
-    compile "io.redskap:swagger-brake:0.2.1"
+    compile "io.redskap:swagger-brake:0.3.0"
 
 
     testCompile "net.bytebuddy:byte-buddy:1.9.12"
