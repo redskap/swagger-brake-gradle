@@ -26,7 +26,7 @@ buildscript {
     mavenCentral()
   }
   dependencies {
-    classpath "io.redskap:swagger-brake-gradle:0.2.1"
+    classpath "io.redskap:swagger-brake-gradle:0.3.0"
   }
 }
 apply plugin: 'io.redskap.swagger-brake'
@@ -50,6 +50,7 @@ The following plugin properties are configurable:
 - `artifactId` - The artifactId. Defaults to `project.name`
 - `outputFilePath` - The output where the report will be generated. Defaults to `project.buildDir/swagger-brake`
 - `outputFormat` - The format of the report. Defaults to `HTML`. Possible values can be found [here](https://github.com/redskap/swagger-brake#reporting).
+- `deprecatedApiDeletionAllowed` - Whether deletion of deprecated APIs should be allowed. More info [here](https://github.com/redskap/swagger-brake#api-deprecation-handling).
 
 ## License
 ```text
