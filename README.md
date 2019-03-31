@@ -15,15 +15,11 @@ An example project can be found [here](https://github.com/redskap/swagger-brake-
 
 Apply the plugin in `build.gradle`:
 ```groovy
-plugins {
-    id 'io.redskap.swagger-brake'
-}
-```
-
-```groovy
 buildscript {
   repositories {
-    mavenCentral()
+    maven {
+      url "https://plugins.gradle.org/m2/"
+    }
   }
   dependencies {
     classpath "io.redskap:swagger-brake-gradle:0.3.0"
