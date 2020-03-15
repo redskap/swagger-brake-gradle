@@ -27,6 +27,8 @@ class CheckBreakingChangesTask extends DefaultTask {
     @Input
     final Property<Boolean> deprecatedApiDeletionAllowed = getProject().getObjects().property(Boolean)
     @Input
+    final Property<Object> betaApiExtensionName = getProject().getObjects().property(Object)
+    @Input
     final Property<Object> apiFilename = getProject().getObjects().property(Object)
 
     @Input
@@ -47,6 +49,7 @@ class CheckBreakingChangesTask extends DefaultTask {
         parameter.mavenRepoUsername = mavenRepoUsername.get().toString()
         parameter.mavenRepoPassword = mavenRepoPassword.get().toString()
         parameter.deprecatedApiDeletionAllowed = deprecatedApiDeletionAllowed.get()
+        parameter.betaApiExtensionName = betaApiExtensionName.get().toString()
         parameter.apiFilename = apiFilename.get().toString()
 
         logger.info("The following parameters are set for the task {}", parameter)

@@ -96,4 +96,28 @@ class OptionsFactoryTest extends Specification {
         then:
         assert result.apiFilename == null
     }
+
+    def "create copies betaApiExtensionName over properly when value is set"() {
+        given:
+        def parameter = new CheckBreakingChangesTaskParameter()
+        parameter.betaApiExtensionName = "something"
+
+        when:
+        def result = underTest.create(parameter)
+
+        then:
+        assert result.betaApiExtensionName == parameter.betaApiExtensionName
+    }
+
+    def "create sets null betaApiExtensionName when value is blank"() {
+        given:
+        def parameter = new CheckBreakingChangesTaskParameter()
+        parameter.betaApiExtensionName = ""
+
+        when:
+        def result = underTest.create(parameter)
+
+        then:
+        assert result.betaApiExtensionName == null
+    }
 }

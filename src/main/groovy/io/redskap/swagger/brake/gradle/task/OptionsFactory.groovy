@@ -17,6 +17,7 @@ class OptionsFactory {
         options.setMavenRepoUsername(parameter.mavenRepoUsername)
         options.setMavenRepoPassword(parameter.mavenRepoPassword)
         options.setDeprecatedApiDeletionAllowed(parameter.deprecatedApiDeletionAllowed)
+        options.setBetaApiExtensionName(StringUtils.defaultIfBlank(parameter.betaApiExtensionName, null))
         options.setApiFilename(StringUtils.defaultIfBlank(parameter.apiFilename, null))
         return options
     }
