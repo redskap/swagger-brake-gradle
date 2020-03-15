@@ -72,4 +72,28 @@ class OptionsFactoryTest extends Specification {
         then:
         thrown(IllegalArgumentException)
     }
+
+    def "create copies apiFilename over properly when value is set"() {
+        given:
+        def parameter = new CheckBreakingChangesTaskParameter()
+        parameter.apiFilename = "something"
+
+        when:
+        def result = underTest.create(parameter)
+
+        then:
+        assert result.apiFilename == parameter.apiFilename
+    }
+
+    def "create sets null apiFilename when value is blank"() {
+        given:
+        def parameter = new CheckBreakingChangesTaskParameter()
+        parameter.apiFilename = ""
+
+        when:
+        def result = underTest.create(parameter)
+
+        then:
+        assert result.apiFilename == null
+    }
 }

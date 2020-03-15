@@ -10,6 +10,8 @@ class CheckBreakingChangesTaskParameter {
     String mavenRepoUsername
     String mavenRepoPassword
     Boolean deprecatedApiDeletionAllowed
+    String apiFilename
+
 
     @Override
     String toString() {
@@ -22,7 +24,8 @@ class CheckBreakingChangesTaskParameter {
                 ", outputFormat='" + outputFormat + '\'' +
                 ", mavenRepoUsername='" + mavenRepoUsername + '\'' +
                 ", mavenRepoPassword='" + mavenRepoPassword + '\'' +
-                ", deprecatedApiDeletionAllowed='" + deprecatedApiDeletionAllowed + '\'' +
-                '}'
+                ", deprecatedApiDeletionAllowed=" + deprecatedApiDeletionAllowed +
+                ", apiFilename='" + apiFilename + '\'' +
+                '}';
     }
 }
