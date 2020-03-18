@@ -13,7 +13,16 @@ An example project can be found [here](https://github.com/redskap/swagger-brake-
 
 ## Usage
 
-Apply the plugin in `build.gradle`:
+Apply the plugin in `build.gradle`.
+
+With plugins DSL:
+```groovy
+plugins {
+  id "io.redskap.swagger-brake" version "1.0.0"
+}
+```
+
+With legacy plugins:
 ```groovy
 buildscript {
   repositories {
@@ -22,10 +31,11 @@ buildscript {
     }
   }
   dependencies {
-    classpath "io.redskap:swagger-brake-gradle:0.3.0"
+    classpath "io.redskap:swagger-brake-gradle:1.0.0"
   }
 }
-apply plugin: 'io.redskap.swagger-brake'
+
+apply plugin: "io.redskap.swagger-brake"
 ```
 
 Configure the plugin:
