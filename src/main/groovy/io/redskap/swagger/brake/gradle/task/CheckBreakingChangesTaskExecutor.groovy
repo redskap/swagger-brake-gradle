@@ -26,7 +26,7 @@ class CheckBreakingChangesTaskExecutor {
             }
         } catch (LatestArtifactDownloadException e) {
             logger.quiet("Latest version of the artifact could not be retrieved from {} with {}:{}", options.mavenRepoUrl, options.groupId, options.artifactId)
-            logger.quiet("Assuming this is the first version of the artifact, skipping check for breaking changes")
+            logger.quiet("Assuming this is the first version of the artifact, skipping check for breaking changes", e)
         }
     }
 }
