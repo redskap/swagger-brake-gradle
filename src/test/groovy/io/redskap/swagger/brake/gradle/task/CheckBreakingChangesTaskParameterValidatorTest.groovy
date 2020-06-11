@@ -5,6 +5,76 @@ import spock.lang.Specification
 class CheckBreakingChangesTaskParameterValidatorTest extends Specification {
     private CheckBreakingChangesTaskParameterValidator underTest = new CheckBreakingChangesTaskParameterValidator()
 
+    def "validate does not throw exception when mavenRepoUrl is set"() {
+        given:
+        def parameter = new CheckBreakingChangesTaskParameter()
+        parameter.mavenRepoUrl = "something"
+        parameter.newApi = "newApi"
+        parameter.artifactId = "artifactId"
+        parameter.groupId = "groupId"
+        parameter.outputFilePath = "outputFilePath"
+        parameter.outputFormat = "html"
+
+        when:
+        underTest.validate(parameter)
+
+        then:
+        noExceptionThrown()
+    }
+
+    def "validate does not throw exception when mavenRepoUrl is set and oldApi is blank"() {
+        given:
+        def parameter = new CheckBreakingChangesTaskParameter()
+        parameter.mavenRepoUrl = "something"
+        parameter.oldApi = ""
+        parameter.newApi = "newApi"
+        parameter.artifactId = "artifactId"
+        parameter.groupId = "groupId"
+        parameter.outputFilePath = "outputFilePath"
+        parameter.outputFormat = "html"
+
+        when:
+        underTest.validate(parameter)
+
+        then:
+        noExceptionThrown()
+    }
+
+    def "validate does not throw exception when oldApi is set"() {
+        given:
+        def parameter = new CheckBreakingChangesTaskParameter()
+        parameter.oldApi = "something"
+        parameter.newApi = "newApi"
+        parameter.artifactId = "artifactId"
+        parameter.groupId = "groupId"
+        parameter.outputFilePath = "outputFilePath"
+        parameter.outputFormat = "html"
+
+        when:
+        underTest.validate(parameter)
+
+        then:
+        noExceptionThrown()
+    }
+
+    def "validate does not throw exception when oldApi is set and mavenRepoUrl is blank"() {
+        given:
+        def parameter = new CheckBreakingChangesTaskParameter()
+        parameter.mavenRepoUrl = ""
+        parameter.oldApi = "something"
+        parameter.newApi = "newApi"
+        parameter.artifactId = "artifactId"
+        parameter.groupId = "groupId"
+        parameter.outputFilePath = "outputFilePath"
+        parameter.outputFormat = "html"
+
+        when:
+        underTest.validate(parameter)
+
+        then:
+        noExceptionThrown()
+    }
+
     def "validate throws exception when mavenRepoUrl is null"() {
         given:
         def parameter = new CheckBreakingChangesTaskParameter()
@@ -39,6 +109,26 @@ class CheckBreakingChangesTaskParameterValidatorTest extends Specification {
         then:
         def e = thrown(IllegalArgumentException)
         assert e.message.contains('mavenRepoUrl or oldApi')
+    }
+
+
+    def "validate throws exception when mavenRepoUrl and oldApi are both set"() {
+        given:
+        def parameter = new CheckBreakingChangesTaskParameter()
+        parameter.mavenRepoUrl = "something"
+        parameter.oldApi = "else"
+        parameter.newApi = "newApi"
+        parameter.artifactId = "artifactId"
+        parameter.groupId = "groupId"
+        parameter.outputFilePath = "outputFilePath"
+        parameter.outputFormat = "html"
+
+        when:
+        underTest.validate(parameter)
+
+        then:
+        def e = thrown(IllegalArgumentException)
+        assert e.message.contains('mavenRepoUrl and oldApi')
     }
 
     def "validate throws exception when newApi is null"() {

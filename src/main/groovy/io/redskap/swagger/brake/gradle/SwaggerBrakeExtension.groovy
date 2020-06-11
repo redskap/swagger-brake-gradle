@@ -42,6 +42,8 @@ class SwaggerBrakeExtension {
     }
 
     private void applyDefaults(Project project) {
+        applyDefaultOldApi()
+        applyDefaultMavenRepoUrl()
         applyDefaultArtifactId(project)
         applyDefaultGroupId(project)
         applyDefaultOutputFilePath(project)
@@ -51,7 +53,10 @@ class SwaggerBrakeExtension {
         applyDefaultBetaApiExtensionName()
         applyDefaultApiFilename()
         applyTestMode()
-        applyDefaultOldApi()
+    }
+
+    private applyDefaultMavenRepoUrl() {
+        this.mavenRepoUrl.set("")
     }
 
     private applyDefaultOldApi() {
