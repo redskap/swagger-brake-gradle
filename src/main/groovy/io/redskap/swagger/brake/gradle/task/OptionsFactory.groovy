@@ -9,6 +9,7 @@ class OptionsFactory {
     static Options create(CheckBreakingChangesTaskParameter parameter) {
         Options options = new Options()
         options.setNewApiPath(parameter.newApi)
+        options.setOldApiPath(parameter.oldApi)
         options.setMavenRepoUrl(parameter.mavenRepoUrl)
         options.setGroupId(parameter.groupId)
         options.setArtifactId(parameter.artifactId)

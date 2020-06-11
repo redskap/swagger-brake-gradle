@@ -10,6 +10,7 @@ class SwaggerBrakeExtension {
     private static final Logger logger = Logging.getLogger(SwaggerBrakeExtension)
 
     final Property<Object> newApi
+    final Property<Object> oldApi
     final Property<Object> mavenRepoUrl
     final Property<Object> groupId
     final Property<Object> artifactId
@@ -25,6 +26,7 @@ class SwaggerBrakeExtension {
 
     SwaggerBrakeExtension(Project project) {
         this.newApi = project.getObjects().property(Object)
+        this.oldApi = project.getObjects().property(Object)
         this.mavenRepoUrl = project.getObjects().property(Object)
         this.groupId = project.getObjects().property(Object)
         this.artifactId = project.getObjects().property(Object)
@@ -49,6 +51,11 @@ class SwaggerBrakeExtension {
         applyDefaultBetaApiExtensionName()
         applyDefaultApiFilename()
         applyTestMode()
+        applyDefaultOldApi()
+    }
+
+    private applyDefaultOldApi() {
+        this.oldApi.set("")
     }
 
     private applyDefaultBetaApiExtensionName() {

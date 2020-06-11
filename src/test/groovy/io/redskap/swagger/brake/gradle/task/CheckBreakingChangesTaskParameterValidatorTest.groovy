@@ -22,10 +22,11 @@ class CheckBreakingChangesTaskParameterValidatorTest extends Specification {
         assert e.message.contains('mavenRepoUrl')
     }
 
-    def "validate throws exception when mavenRepoUrl is empty"() {
+    def "validate throws exception when mavenRepoUrl or oldApi are empty"() {
         given:
         def parameter = new CheckBreakingChangesTaskParameter()
         parameter.mavenRepoUrl = ""
+        parameter.oldApi = ""
         parameter.newApi = "newApi"
         parameter.artifactId = "artifactId"
         parameter.groupId = "groupId"
@@ -37,7 +38,7 @@ class CheckBreakingChangesTaskParameterValidatorTest extends Specification {
 
         then:
         def e = thrown(IllegalArgumentException)
-        assert e.message.contains('mavenRepoUrl')
+        assert e.message.contains('mavenRepoUrl or oldApi')
     }
 
     def "validate throws exception when newApi is null"() {

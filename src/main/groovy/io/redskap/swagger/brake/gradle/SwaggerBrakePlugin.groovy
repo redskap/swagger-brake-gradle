@@ -17,6 +17,7 @@ class SwaggerBrakePlugin implements Plugin<Project>  {
         def checkBreakingChangesTask = project.tasks.create("checkBreakingChanges", CheckBreakingChangesTask) {
             mavenRepoUrl = extension.mavenRepoUrl
             newApi = extension.newApi
+            oldApi = extension.oldApi
             artifactId = extension.artifactId
             groupId = extension.groupId
             outputFilePath = extension.outputFilePath
