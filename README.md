@@ -19,7 +19,7 @@ Apply the plugin in `build.gradle`.
 With plugins DSL:
 ```groovy
 plugins {
-  id "io.redskap.swagger-brake" version "1.0.0"
+  id "io.redskap.swagger-brake" version "1.1.0"
 }
 ```
 
@@ -32,7 +32,7 @@ buildscript {
     }
   }
   dependencies {
-    classpath "io.redskap:swagger-brake-gradle:1.0.0"
+    classpath "io.redskap:swagger-brake-gradle:1.1.0"
   }
 }
 
