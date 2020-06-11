@@ -2,6 +2,7 @@ package io.redskap.swagger.brake.gradle.task
 
 class CheckBreakingChangesTaskParameter {
     String newApi
+    String oldApi
     String mavenRepoUrl
     String groupId
     String artifactId
@@ -17,6 +18,7 @@ class CheckBreakingChangesTaskParameter {
     String toString() {
         return "CheckBreakingChangesTaskParameter{" +
                 "newApi='" + newApi + '\'' +
+                ", oldApi='" + oldApi + '\'' +
                 ", mavenRepoUrl='" + mavenRepoUrl + '\'' +
                 ", groupId='" + groupId + '\'' +
                 ", artifactId='" + artifactId + '\'' +

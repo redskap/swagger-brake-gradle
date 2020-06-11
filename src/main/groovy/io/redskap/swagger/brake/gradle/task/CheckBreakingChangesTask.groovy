@@ -11,6 +11,8 @@ class CheckBreakingChangesTask extends DefaultTask {
     @Input
     final Property<Object> newApi = getProject().getObjects().property(Object)
     @Input
+    final Property<Object> oldApi = getProject().getObjects().property(Object)
+    @Input
     final Property<Object> mavenRepoUrl = getProject().getObjects().property(Object)
     @Input
     final Property<Object> groupId = getProject().getObjects().property(Object)
@@ -41,6 +43,7 @@ class CheckBreakingChangesTask extends DefaultTask {
     void performCheck() {
         def parameter = new CheckBreakingChangesTaskParameter()
         parameter.newApi = newApi.get().toString()
+        parameter.oldApi = oldApi.get().toString()
         parameter.mavenRepoUrl = mavenRepoUrl.get().toString()
         parameter.groupId = groupId.get().toString()
         parameter.artifactId = artifactId.get().toString()

@@ -4,8 +4,9 @@ import org.apache.commons.lang3.StringUtils
 
 class CheckBreakingChangesTaskParameterValidator {
     void validate(CheckBreakingChangesTaskParameter parameter) {
-        if (StringUtils.isBlank(parameter.mavenRepoUrl)) {
-            throw new IllegalArgumentException("mavenRepoUrl must be set")
+        if (StringUtils.isBlank(parameter.mavenRepoUrl)
+                && StringUtils.isBlank(parameter.oldApi) ) {
+            throw new IllegalArgumentException("mavenRepoUrl or oldApi must be set")
         }
         if (StringUtils.isBlank(parameter.newApi)) {
             throw new IllegalArgumentException("newApi must be set")

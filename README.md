@@ -52,6 +52,7 @@ The following plugin properties are configurable:
 - `mavenRepoUsername` - The username for accessing the Maven repository.
 - `mavenRepoPassword` - The password for accessing the Maven repository.
 - `newApi` - The path of the API file with which the latest version will be compared to
+- `oldApi` - The path of the latest API file(if no `mavenRepoUrl` property defined) 
 - `groupId` - The groupId of the artifact. Defaults to `project.group`
 - `artifactId` - The artifactId. Defaults to `project.name`
 - `outputFilePath` - The output where the report will be generated. Defaults to `project.buildDir/swagger-brake`
