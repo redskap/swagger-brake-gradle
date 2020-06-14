@@ -35,12 +35,14 @@ class SwaggerBrakePluginTest extends Specification {
         given:
         def project = ProjectBuilder.builder().withName("test-project").build()
         project.group = 'group.test'
+        project.version = '1.0.0-SNAPSHOT'
         project.pluginManager.apply('java')
 
         when:
         project.pluginManager.apply(SwaggerBrakePlugin)
         project.extensions.configure(SwaggerBrakeExtension, new ClosureBackedAction<SwaggerBrakeExtension>({
             mavenRepoUrl = 'something'
+            mavenSnapshotRepoUrl = 'somethingelse'
             newApi = 'somethingElse'
         }))
 
@@ -48,6 +50,7 @@ class SwaggerBrakePluginTest extends Specification {
         def extension = project.extensions.findByName("swaggerBrake")
         assert extension != null
         assert extension.groupId.get() == project.group
+        assert extension.currentVersion.get() == project.version
         assert extension.artifactId.get() == project.name
         assert extension.outputFilePath.get().startsWith("${project.buildDir}/swagger-brake")
         assert extension.outputFormat.get() == 'HTML'

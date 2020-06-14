@@ -4,8 +4,10 @@ class CheckBreakingChangesTaskParameter {
     String newApi
     String oldApi
     String mavenRepoUrl
-    String groupId
+    String mavenSnapshotRepoUrl
     String artifactId
+    String groupId
+    String currentVersion
     String outputFilePath
     String outputFormat
     String mavenRepoUsername
@@ -20,8 +22,10 @@ class CheckBreakingChangesTaskParameter {
                 "newApi='" + newApi + '\'' +
                 ", oldApi='" + oldApi + '\'' +
                 ", mavenRepoUrl='" + mavenRepoUrl + '\'' +
-                ", groupId='" + groupId + '\'' +
+                ", mavenSnapshotRepoUrl='" + mavenSnapshotRepoUrl + '\'' +
                 ", artifactId='" + artifactId + '\'' +
+                ", groupId='" + groupId + '\'' +
+                ", currentVersion='" + currentVersion + '\'' +
                 ", outputFilePath='" + outputFilePath + '\'' +
                 ", outputFormat='" + outputFormat + '\'' +
                 ", mavenRepoUsername='" + mavenRepoUsername + '\'' +

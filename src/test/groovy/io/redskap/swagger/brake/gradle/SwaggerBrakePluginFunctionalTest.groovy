@@ -33,7 +33,9 @@ class SwaggerBrakePluginFunctionalTest extends Specification {
 
             swaggerBrake {
                 groupId = 'io.redskap'
-                mavenRepoUrl = "http://localhost:8081/artifactory/libs-snapshot-local"
+                currentVersion = '2.0.0-SNAPSHOT' 
+                mavenRepoUrl = "http://localhost:8081/artifactory/libs-release-local"
+                mavenSnapshotRepoUrl = "http://localhost:8081/artifactory/libs-snapshot-local"
                 newApi = "${testProjectDir.root.toString().replace('\\', '/')}/resources/main/swagger.yaml"
                 testModeEnabled = true
             }

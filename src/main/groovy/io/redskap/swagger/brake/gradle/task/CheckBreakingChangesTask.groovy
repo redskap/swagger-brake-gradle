@@ -1,6 +1,7 @@
 package io.redskap.swagger.brake.gradle.task
 
 import io.redskap.swagger.brake.gradle.task.starter.StarterFactory
+import io.redskap.swagger.brake.runner.OptionsValidator
 import org.gradle.api.DefaultTask
 import org.gradle.api.provider.Property
 import org.gradle.api.tasks.Input
@@ -15,9 +16,13 @@ class CheckBreakingChangesTask extends DefaultTask {
     @Input
     final Property<Object> mavenRepoUrl = getProject().getObjects().property(Object)
     @Input
-    final Property<Object> groupId = getProject().getObjects().property(Object)
+    final Property<Object> mavenSnapshotRepoUrl = getProject().getObjects().property(Object)
     @Input
     final Property<Object> artifactId = getProject().getObjects().property(Object)
+    @Input
+    final Property<Object> groupId = getProject().getObjects().property(Object)
+    @Input
+    final Property<Object> currentVersion = getProject().getObjects().property(Object)
     @Input
     final Property<Object> outputFilePath = getProject().getObjects().property(Object)
     @Input
@@ -36,8 +41,7 @@ class CheckBreakingChangesTask extends DefaultTask {
     @Input
     final Property<Boolean> testModeEnabled = getProject().getObjects().property(Boolean)
 
-
-    private final CheckBreakingChangesTaskParameterValidator parameterValidator = new CheckBreakingChangesTaskParameterValidator()
+    private final OptionsValidator optionsValidator = new OptionsValidator()
 
     @TaskAction
     void performCheck() {
@@ -45,8 +49,10 @@ class CheckBreakingChangesTask extends DefaultTask {
         parameter.newApi = newApi.get().toString()
         parameter.oldApi = oldApi.get().toString()
         parameter.mavenRepoUrl = mavenRepoUrl.get().toString()
-        parameter.groupId = groupId.get().toString()
+        parameter.mavenSnapshotRepoUrl = mavenSnapshotRepoUrl.get().toString()
         parameter.artifactId = artifactId.get().toString()
+        parameter.groupId = groupId.get().toString()
+        parameter.currentVersion = currentVersion.get().toString()
         parameter.outputFilePath = outputFilePath.get().toString()
         parameter.outputFormat = outputFormat.get().toString()
         parameter.mavenRepoUsername = mavenRepoUsername.get().toString()
@@ -56,8 +62,8 @@ class CheckBreakingChangesTask extends DefaultTask {
         parameter.apiFilename = apiFilename.get().toString()
 
         logger.info("The following parameters are set for the task {}", parameter)
-        parameterValidator.validate(parameter)
         def options = OptionsFactory.create(parameter)
+        optionsValidator.validate(options)
         createExecutor().execute(options)
     }
 

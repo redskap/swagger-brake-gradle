@@ -12,8 +12,10 @@ class SwaggerBrakeExtension {
     final Property<Object> newApi
     final Property<Object> oldApi
     final Property<Object> mavenRepoUrl
+    final Property<Object> mavenSnapshotRepoUrl
     final Property<Object> groupId
     final Property<Object> artifactId
+    final Property<Object> currentVersion
     final Property<Object> outputFilePath
     final Property<Object> outputFormat
     final Property<Object> mavenRepoUsername
@@ -28,8 +30,10 @@ class SwaggerBrakeExtension {
         this.newApi = project.getObjects().property(Object)
         this.oldApi = project.getObjects().property(Object)
         this.mavenRepoUrl = project.getObjects().property(Object)
+        this.mavenSnapshotRepoUrl = project.getObjects().property(Object)
         this.groupId = project.getObjects().property(Object)
         this.artifactId = project.getObjects().property(Object)
+        this.currentVersion = project.getObjects().property(Object)
         this.outputFilePath = project.getObjects().property(Object)
         this.outputFormat = project.getObjects().property(Object)
         this.mavenRepoUsername = project.getObjects().property(Object)
@@ -46,6 +50,7 @@ class SwaggerBrakeExtension {
         applyDefaultMavenRepoUrl()
         applyDefaultArtifactId(project)
         applyDefaultGroupId(project)
+        applyDefaultVersion(project)
         applyDefaultOutputFilePath(project)
         applyDefaultOutputFormat()
         applyMavenRepoAuth()
@@ -57,6 +62,7 @@ class SwaggerBrakeExtension {
 
     private applyDefaultMavenRepoUrl() {
         this.mavenRepoUrl.set("")
+        this.mavenSnapshotRepoUrl.set("")
     }
 
     private applyDefaultOldApi() {
@@ -98,6 +104,15 @@ class SwaggerBrakeExtension {
             logger.warn("Default groupId based on project group cannot be used for Swagger Brake. Consider setting it manually.")
         }
         this.groupId.set(groupId)
+    }
+
+    private applyDefaultVersion(Project project) {
+        def version = project.version.toString()
+        if (StringUtils.isBlank(version) || version == "unspecified") {
+            logger.warn("Default version based on project version cannot be used for Swagger Brake. Consider setting it manually.")
+        } else {
+            this.currentVersion.set(version)
+        }
     }
 
     private applyDefaultOutputFilePath(Project project) {

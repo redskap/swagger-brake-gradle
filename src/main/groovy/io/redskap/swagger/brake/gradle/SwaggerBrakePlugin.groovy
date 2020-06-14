@@ -1,10 +1,6 @@
 package io.redskap.swagger.brake.gradle
 
 import io.redskap.swagger.brake.gradle.task.CheckBreakingChangesTask
-import io.redskap.swagger.brake.gradle.task.CheckBreakingChangesTaskExecutor
-import io.redskap.swagger.brake.gradle.task.CheckBreakingChangesTaskParameterValidator
-import io.redskap.swagger.brake.gradle.task.starter.StarterFactory
-import io.redskap.swagger.brake.gradle.task.starter.SwaggerBrakeStarter
 import org.gradle.api.GradleException
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -16,10 +12,12 @@ class SwaggerBrakePlugin implements Plugin<Project>  {
 
         def checkBreakingChangesTask = project.tasks.create("checkBreakingChanges", CheckBreakingChangesTask) {
             mavenRepoUrl = extension.mavenRepoUrl
+            mavenSnapshotRepoUrl = extension.mavenSnapshotRepoUrl
             newApi = extension.newApi
             oldApi = extension.oldApi
             artifactId = extension.artifactId
             groupId = extension.groupId
+            currentVersion = extension.currentVersion
             outputFilePath = extension.outputFilePath
             outputFormat = extension.outputFormat
             mavenRepoUsername = extension.mavenRepoUsername
