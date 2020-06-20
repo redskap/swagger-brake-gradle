@@ -7,7 +7,7 @@ to download the proper artifact. If you want to skip the latest artifact resolut
 you can use a path to the latest version of your API to compare.
 
 There are 2 properties which are mandatory for this reason:
-- `mavenRepoUrl` or `oldApi`
+- `mavenRepoUrl` and `mavenSnapshotUrl` or `oldApi`
 - `newApi`
 
 An example project can be found [here](https://github.com/redskap/swagger-brake-example/tree/master/swagger-brake-gradle-example).
@@ -42,7 +42,8 @@ apply plugin: "io.redskap.swagger-brake"
 Configure the plugin:
 ```groovy
 swaggerBrake {
-    mavenRepoUrl = "http://localhost:8081/artifactory/libs-snapshot-local"
+    mavenRepoUrl = "http://localhost:8081/artifactory/libs-release-local"
+    mavenSnapshotRepoUrl = "http://localhost:8081/artifactory/libs-snapshot-local"
     newApi = "${project.buildDir}/src/main/resources/swagger.json"
 }
 ```
@@ -50,6 +51,7 @@ swaggerBrake {
 ## Plugin configuration
 The following plugin properties are configurable:
 - `mavenRepoUrl` - The Maven repository URL where the previous version of the artifact can be found.
+- `mavenSnapshotRepoUrl` - The Maven snapshot repository URL where the previous version of the artifact can be found.
 - `mavenRepoUsername` - The username for accessing the Maven repository.
 - `mavenRepoPassword` - The password for accessing the Maven repository.
 - `newApi` - The path of the API file with which the latest version will be compared to
@@ -61,6 +63,7 @@ The following plugin properties are configurable:
 - `deprecatedApiDeletionAllowed` - Whether deletion of deprecated APIs should be allowed. More info [here](https://github.com/redskap/swagger-brake#api-deprecation-handling).
 - `betaApiExtensionName` - Defines which vendor extension attribute to use for denoting the beta APIs. More info [here](https://github.com/redskap/swagger-brake#beta-api-support).
 - `apiFilename` - Specifies the filename of the contract within the downloaded artifact. More info [here](https://github.com/redskap/swagger-brake#latest-artifact-resolution).
+- `currentVersion` - Specifies the version of the currently built artifact. Defaults to the project version. More info [here](https://github.com/redskap/swagger-brake#latest-artifact-resolution).
 
 ## License
 ```text
