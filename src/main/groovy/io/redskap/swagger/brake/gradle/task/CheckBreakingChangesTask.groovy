@@ -3,72 +3,88 @@ package io.redskap.swagger.brake.gradle.task
 import io.redskap.swagger.brake.gradle.task.starter.StarterFactory
 import io.redskap.swagger.brake.runner.OptionsValidator
 import org.gradle.api.DefaultTask
+import org.gradle.api.provider.ListProperty
 import org.gradle.api.provider.Property
 import org.gradle.api.tasks.Input
+import org.gradle.api.tasks.Optional
 import org.gradle.api.tasks.TaskAction
 
 class CheckBreakingChangesTask extends DefaultTask {
-    // Using Object everywhere because of https://github.com/gradle/gradle/pull/6536
     @Input
-    final Property<Object> newApi = getProject().getObjects().property(Object)
+    final Property<String> newApi = getProject().getObjects().property(String.class)
     @Input
-    final Property<Object> oldApi = getProject().getObjects().property(Object)
+    @Optional
+    final Property<String> oldApi = getProject().getObjects().property(String.class)
     @Input
-    final Property<Object> mavenRepoUrl = getProject().getObjects().property(Object)
+    @Optional
+    final Property<String> mavenRepoUrl = getProject().getObjects().property(String.class)
     @Input
-    final Property<Object> mavenSnapshotRepoUrl = getProject().getObjects().property(Object)
+    @Optional
+    final Property<String> mavenSnapshotRepoUrl = getProject().getObjects().property(String.class)
     @Input
-    final Property<Object> artifactId = getProject().getObjects().property(Object)
+    @Optional
+    final Property<String> artifactId = getProject().getObjects().property(String.class)
     @Input
-    final Property<Object> groupId = getProject().getObjects().property(Object)
+    @Optional
+    final Property<String> groupId = getProject().getObjects().property(String.class)
     @Input
-    final Property<Object> currentVersion = getProject().getObjects().property(Object)
+    @Optional
+    final Property<String> currentVersion = getProject().getObjects().property(String.class)
     @Input
-    final Property<Object> outputFilePath = getProject().getObjects().property(Object)
+    @Optional
+    final Property<String> outputFilePath = getProject().getObjects().property(String.class)
     @Input
-    final Property<Object> outputFormat = getProject().getObjects().property(Object)
+    @Optional
+    final ListProperty<String> outputFormats = getProject().getObjects().listProperty(String.class)
     @Input
-    final Property<Object> mavenRepoUsername = getProject().getObjects().property(Object)
+    @Optional
+    final Property<String> mavenRepoUsername = getProject().getObjects().property(String.class)
     @Input
-    final Property<Object> mavenRepoPassword = getProject().getObjects().property(Object)
+    @Optional
+    final Property<String> mavenRepoPassword = getProject().getObjects().property(String.class)
     @Input
-    final Property<Boolean> deprecatedApiDeletionAllowed = getProject().getObjects().property(Boolean)
+    @Optional
+    final Property<Boolean> deprecatedApiDeletionAllowed = getProject().getObjects().property(Boolean.class)
     @Input
-    final Property<Object> betaApiExtensionName = getProject().getObjects().property(Object)
+    @Optional
+    final Property<String> betaApiExtensionName = getProject().getObjects().property(String.class)
     @Input
-    final Property<Object> apiFilename = getProject().getObjects().property(Object)
+    @Optional
+    final Property<String> apiFilename = getProject().getObjects().property(String.class)
 
     @Input
-    final Property<Boolean> testModeEnabled = getProject().getObjects().property(Boolean)
+    @Optional
+    final Property<Boolean> testModeEnabled = getProject().getObjects().property(Boolean.class)
 
     private final OptionsValidator optionsValidator = new OptionsValidator()
 
     @TaskAction
     void performCheck() {
-        def parameter = new CheckBreakingChangesTaskParameter()
-        parameter.newApi = newApi.get().toString()
-        parameter.oldApi = oldApi.get().toString()
-        parameter.mavenRepoUrl = mavenRepoUrl.get().toString()
-        parameter.mavenSnapshotRepoUrl = mavenSnapshotRepoUrl.get().toString()
-        parameter.artifactId = artifactId.get().toString()
-        parameter.groupId = groupId.get().toString()
-        parameter.currentVersion = currentVersion.get().toString()
-        parameter.outputFilePath = outputFilePath.get().toString()
-        parameter.outputFormat = outputFormat.get().toString()
-        parameter.mavenRepoUsername = mavenRepoUsername.get().toString()
-        parameter.mavenRepoPassword = mavenRepoPassword.get().toString()
-        parameter.deprecatedApiDeletionAllowed = deprecatedApiDeletionAllowed.get()
-        parameter.betaApiExtensionName = betaApiExtensionName.get().toString()
-        parameter.apiFilename = apiFilename.get().toString()
-
+        def parameter = CheckBreakingChangesTaskParameterFactory.create(
+                getProject(),
+                this.newApi,
+                this.oldApi,
+                this.mavenRepoUrl,
+                this.mavenSnapshotRepoUrl,
+                this.artifactId,
+                this.groupId,
+                this.currentVersion,
+                this.outputFilePath,
+                this.outputFormats,
+                this.mavenRepoUsername,
+                this.mavenRepoPassword,
+                this.deprecatedApiDeletionAllowed,
+                this.betaApiExtensionName,
+                this.apiFilename
+        )
         logger.info("The following parameters are set for the task {}", parameter)
         def options = OptionsFactory.create(parameter)
         optionsValidator.validate(options)
         createExecutor().execute(options)
     }
 
-    private CheckBreakingChangesTaskExecutor createExecutor() {
-        def factory = new StarterFactory(testModeEnabled.get())
+    CheckBreakingChangesTaskExecutor createExecutor() {
+        def factory = new StarterFactory(testModeEnabled.getOrElse(false))
         return new CheckBreakingChangesTaskExecutor(factory)
     }
 }

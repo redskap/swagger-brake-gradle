@@ -14,7 +14,7 @@ class OptionsFactoryTest extends Specification {
         parameter.artifactId = "artifactId"
         parameter.groupId = "groupId"
         parameter.outputFilePath = "outputFilePath"
-        parameter.outputFormat = "HTML"
+        parameter.outputFormats = ["HTML"]
         parameter.mavenRepoUsername = "username"
         parameter.mavenRepoPassword = "password"
         parameter.deprecatedApiDeletionAllowed = true
@@ -42,7 +42,7 @@ class OptionsFactoryTest extends Specification {
         parameter.artifactId = "artifactId"
         parameter.groupId = "groupId"
         parameter.outputFilePath = "outputFilePath"
-        parameter.outputFormat = "html"
+        parameter.outputFormats = ["html"]
 
         when:
         def result = underTest.create(parameter)
@@ -64,7 +64,7 @@ class OptionsFactoryTest extends Specification {
         parameter.artifactId = "artifactId"
         parameter.groupId = "groupId"
         parameter.outputFilePath = "outputFilePath"
-        parameter.outputFormat = "svg"
+        parameter.outputFormats = ["svg"]
 
         when:
         underTest.create(parameter)

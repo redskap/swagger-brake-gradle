@@ -1,6 +1,8 @@
 package io.redskap.swagger.brake.gradle
 
+
 import io.redskap.swagger.brake.gradle.task.CheckBreakingChangesTask
+import org.gradle.api.Action
 import org.gradle.api.GradleException
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -8,25 +10,29 @@ import org.gradle.api.Project
 class SwaggerBrakePlugin implements Plugin<Project>  {
     @Override
     void apply(Project project) {
-        def extension = project.extensions.create("swaggerBrake", SwaggerBrakeExtension.class, project)
+        def extension = project.getExtensions().create("swaggerBrake", SwaggerBrakeExtension.class, project)
 
-        def checkBreakingChangesTask = project.tasks.create("checkBreakingChanges", CheckBreakingChangesTask) {
-            mavenRepoUrl = extension.mavenRepoUrl
-            mavenSnapshotRepoUrl = extension.mavenSnapshotRepoUrl
-            newApi = extension.newApi
-            oldApi = extension.oldApi
-            artifactId = extension.artifactId
-            groupId = extension.groupId
-            currentVersion = extension.currentVersion
-            outputFilePath = extension.outputFilePath
-            outputFormat = extension.outputFormat
-            mavenRepoUsername = extension.mavenRepoUsername
-            mavenRepoPassword = extension.mavenRepoPassword
-            deprecatedApiDeletionAllowed = extension.deprecatedApiDeletionAllowed
-            betaApiExtensionName = extension.betaApiExtensionName
-            apiFilename = extension.apiFilename
-            testModeEnabled = extension.testModeEnabled
-        }
+        def checkBreakingChangesTask = project.getTasks().register("checkBreakingChanges", CheckBreakingChangesTask.class, new Action<CheckBreakingChangesTask>() {
+            @Override
+            void execute(CheckBreakingChangesTask checkBreakingChangesTask) {
+                checkBreakingChangesTask.getMavenRepoUrl().set(extension.mavenRepoUrl)
+                checkBreakingChangesTask.getMavenSnapshotRepoUrl().set(extension.mavenSnapshotRepoUrl)
+                checkBreakingChangesTask.getNewApi().set(extension.newApi)
+                checkBreakingChangesTask.getOldApi().set(extension.oldApi)
+                checkBreakingChangesTask.getArtifactId().set(extension.artifactId)
+                checkBreakingChangesTask.getGroupId().set(extension.groupId)
+                checkBreakingChangesTask.getCurrentVersion().set(extension.currentVersion)
+                checkBreakingChangesTask.getOutputFilePath().set(extension.outputFilePath)
+                checkBreakingChangesTask.getOutputFormats().set(extension.outputFormats)
+                checkBreakingChangesTask.getMavenRepoUsername().set(extension.mavenRepoUsername)
+                checkBreakingChangesTask.getMavenRepoPassword().set(extension.mavenRepoPassword)
+                checkBreakingChangesTask.getDeprecatedApiDeletionAllowed().set(extension.deprecatedApiDeletionAllowed)
+                checkBreakingChangesTask.getBetaApiExtensionName().set(extension.betaApiExtensionName)
+                checkBreakingChangesTask.getApiFilename().set(extension.apiFilename)
+                checkBreakingChangesTask.getTestModeEnabled().set(extension.testModeEnabled)
+            }
+        })
+
         def checkTask = project.tasks.findByName("check")
         if (checkTask != null) {
             checkTask.dependsOn(checkBreakingChangesTask)

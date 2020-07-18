@@ -1,8 +1,9 @@
 package io.redskap.swagger.brake.gradle
 
+
 import org.gradle.api.GradleException
-import org.gradle.api.internal.ClosureBackedAction
 import org.gradle.testfixtures.ProjectBuilder
+import org.gradle.util.ClosureBackedAction
 import spock.lang.Specification
 
 class SwaggerBrakePluginTest extends Specification {
@@ -31,33 +32,6 @@ class SwaggerBrakePluginTest extends Specification {
         assert e.getCause().message.contains('check')
     }
 
-    def "Plugin defaults are applied properly"() {
-        given:
-        def project = ProjectBuilder.builder().withName("test-project").build()
-        project.group = 'group.test'
-        project.version = '1.0.0-SNAPSHOT'
-        project.pluginManager.apply('java')
-
-        when:
-        project.pluginManager.apply(SwaggerBrakePlugin)
-        project.extensions.configure(SwaggerBrakeExtension, new ClosureBackedAction<SwaggerBrakeExtension>({
-            mavenRepoUrl = 'something'
-            mavenSnapshotRepoUrl = 'somethingelse'
-            newApi = 'somethingElse'
-        }))
-
-        then:
-        def extension = project.extensions.findByName("swaggerBrake")
-        assert extension != null
-        assert extension.groupId.get() == project.group
-        assert extension.currentVersion.get() == project.version
-        assert extension.artifactId.get() == project.name
-        assert extension.outputFilePath.get().startsWith("${project.buildDir}/swagger-brake")
-        assert extension.outputFormat.get() == 'HTML'
-        assert extension.testModeEnabled.get() == false
-        assert extension.oldApi.get() == ''
-    }
-
     def "Plugin properties can be set with simple strings"() {
         given:
         def project = ProjectBuilder.builder().withName("test-project").build()
@@ -69,7 +43,7 @@ class SwaggerBrakePluginTest extends Specification {
         def expectedGroupId = 'simple-group'
         def expectedArtifactId = 'artifact-id'
         def expectedOutputFilePath = 'output-path'
-        def expectedOutputFormat = 'JSON'
+        def expectedOutputFormats = ['JSON']
         def expectedMavenRepoUsername = 'username'
         def expectedMavenRepoPassword = 'password'
         def expectedOldApi = 'somethingOld'
@@ -82,7 +56,7 @@ class SwaggerBrakePluginTest extends Specification {
             groupId = expectedGroupId
             artifactId = expectedArtifactId
             outputFilePath = expectedOutputFilePath
-            outputFormat = expectedOutputFormat
+            outputFormats = expectedOutputFormats
             mavenRepoUsername = expectedMavenRepoUsername
             mavenRepoPassword = expectedMavenRepoPassword
             oldApi = expectedOldApi
@@ -96,7 +70,7 @@ class SwaggerBrakePluginTest extends Specification {
         assert extension.groupId.get() == expectedGroupId
         assert extension.artifactId.get() == expectedArtifactId
         assert extension.outputFilePath.get() == expectedOutputFilePath
-        assert extension.outputFormat.get() == expectedOutputFormat
+        assert extension.outputFormats.get() == expectedOutputFormats
         assert extension.mavenRepoUsername.get() == expectedMavenRepoUsername
         assert extension.mavenRepoPassword.get() == expectedMavenRepoPassword
         assert extension.oldApi.get() == expectedOldApi
@@ -114,7 +88,7 @@ class SwaggerBrakePluginTest extends Specification {
         def expectedGroupId = "${project.group}"
         def expectedArtifactId = "${project.name}"
         def expectedOutputFilePath = "${project.buildDir}/swagger-brake/"
-        def expectedOutputFormat = "JSON"
+        def expectedOutputFormats = ["JSON"]
         def expectedOldApi = "${project.buildDir}/swagger-old.json"
 
         when:
@@ -125,7 +99,7 @@ class SwaggerBrakePluginTest extends Specification {
             groupId = expectedGroupId
             artifactId = expectedArtifactId
             outputFilePath = expectedOutputFilePath
-            outputFormat = expectedOutputFormat
+            outputFormats = expectedOutputFormats
             oldApi = expectedOldApi
         }))
 
@@ -137,7 +111,7 @@ class SwaggerBrakePluginTest extends Specification {
         assert extension.groupId.get() == expectedGroupId
         assert extension.artifactId.get() == expectedArtifactId
         assert extension.outputFilePath.get() == expectedOutputFilePath
-        assert extension.outputFormat.get() == expectedOutputFormat
+        assert extension.outputFormats.get() == expectedOutputFormats
         assert extension.oldApi.get() == expectedOldApi
     }
 }

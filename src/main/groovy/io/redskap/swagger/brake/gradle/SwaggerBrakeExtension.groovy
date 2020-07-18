@@ -1,129 +1,47 @@
 package io.redskap.swagger.brake.gradle
 
-import org.apache.commons.lang3.StringUtils
+
 import org.gradle.api.Project
 import org.gradle.api.logging.Logger
 import org.gradle.api.logging.Logging
+import org.gradle.api.provider.ListProperty
 import org.gradle.api.provider.Property
 
 class SwaggerBrakeExtension {
     private static final Logger logger = Logging.getLogger(SwaggerBrakeExtension)
 
-    final Property<Object> newApi
-    final Property<Object> oldApi
-    final Property<Object> mavenRepoUrl
-    final Property<Object> mavenSnapshotRepoUrl
-    final Property<Object> groupId
-    final Property<Object> artifactId
-    final Property<Object> currentVersion
-    final Property<Object> outputFilePath
-    final Property<Object> outputFormat
-    final Property<Object> mavenRepoUsername
-    final Property<Object> mavenRepoPassword
+    final Property<String> newApi
+    final Property<String> oldApi
+    final Property<String> mavenRepoUrl
+    final Property<String> mavenSnapshotRepoUrl
+    final Property<String> groupId
+    final Property<String> artifactId
+    final Property<String> currentVersion
+    final Property<String> outputFilePath
+    final ListProperty<String> outputFormats
+    final Property<String> mavenRepoUsername
+    final Property<String> mavenRepoPassword
     final Property<Boolean> deprecatedApiDeletionAllowed
-    final Property<Object> betaApiExtensionName
-    final Property<Object> apiFilename
+    final Property<String> betaApiExtensionName
+    final Property<String> apiFilename
 
     final Property<Boolean> testModeEnabled
 
     SwaggerBrakeExtension(Project project) {
-        this.newApi = project.getObjects().property(Object)
-        this.oldApi = project.getObjects().property(Object)
-        this.mavenRepoUrl = project.getObjects().property(Object)
-        this.mavenSnapshotRepoUrl = project.getObjects().property(Object)
-        this.groupId = project.getObjects().property(Object)
-        this.artifactId = project.getObjects().property(Object)
-        this.currentVersion = project.getObjects().property(Object)
-        this.outputFilePath = project.getObjects().property(Object)
-        this.outputFormat = project.getObjects().property(Object)
-        this.mavenRepoUsername = project.getObjects().property(Object)
-        this.mavenRepoPassword = project.getObjects().property(Object)
-        this.deprecatedApiDeletionAllowed = project.getObjects().property(Boolean)
-        this.betaApiExtensionName = project.getObjects().property(Object)
-        this.apiFilename = project.getObjects().property(Object)
-        this.testModeEnabled = project.getObjects().property(Boolean)
-        applyDefaults(project)
-    }
-
-    private void applyDefaults(Project project) {
-        applyDefaultOldApi()
-        applyDefaultMavenRepoUrl()
-        applyDefaultArtifactId(project)
-        applyDefaultGroupId(project)
-        applyDefaultVersion(project)
-        applyDefaultOutputFilePath(project)
-        applyDefaultOutputFormat()
-        applyMavenRepoAuth()
-        applyDeprecatedApiHandling()
-        applyDefaultBetaApiExtensionName()
-        applyDefaultApiFilename()
-        applyTestMode()
-    }
-
-    private applyDefaultMavenRepoUrl() {
-        this.mavenRepoUrl.set("")
-        this.mavenSnapshotRepoUrl.set("")
-    }
-
-    private applyDefaultOldApi() {
-        this.oldApi.set("")
-    }
-
-    private applyDefaultBetaApiExtensionName() {
-        this.betaApiExtensionName.set("")
-    }
-
-    private applyDefaultApiFilename() {
-        this.apiFilename.set("")
-    }
-
-    private applyDeprecatedApiHandling() {
-        this.deprecatedApiDeletionAllowed.set(true)
-    }
-
-    private applyTestMode() {
-        this.testModeEnabled.set(false)
-    }
-
-    private applyMavenRepoAuth() {
-        this.mavenRepoUsername.set("")
-        this.mavenRepoPassword.set("")
-    }
-
-    private applyDefaultArtifactId(Project project) {
-        def artifactId = project.name.toString()
-        if (StringUtils.isBlank(artifactId)) {
-            logger.warn("Default artifactId based on project name cannot be used for Swagger Brake. Consider setting it manually.")
-        }
-        this.artifactId.set(artifactId)
-    }
-
-    private applyDefaultGroupId(Project project) {
-        def groupId = project.group.toString()
-        if (StringUtils.isBlank(groupId)) {
-            logger.warn("Default groupId based on project group cannot be used for Swagger Brake. Consider setting it manually.")
-        }
-        this.groupId.set(groupId)
-    }
-
-    private applyDefaultVersion(Project project) {
-        def version = project.version.toString()
-        if (StringUtils.isBlank(version) || version == "unspecified") {
-            logger.warn("Default version based on project version cannot be used for Swagger Brake. Consider setting it manually.")
-        } else {
-            this.currentVersion.set(version)
-        }
-    }
-
-    private applyDefaultOutputFilePath(Project project) {
-        def outputFilePath = "${project.buildDir}/swagger-brake/".toString()
-        if (StringUtils.isBlank(outputFilePath)) {
-            logger.warn("Default outputFilePath based on project's buildDir cannot be used for Swagger Brake. Consider setting it manually.")
-        }
-        this.outputFilePath.set(outputFilePath)
-    }
-
-    private applyDefaultOutputFormat() {
-        this.outputFormat.set('HTML')
+        this.newApi = project.getObjects().property(String.class)
+        this.oldApi = project.getObjects().property(String.class)
+        this.mavenRepoUrl = project.getObjects().property(String.class)
+        this.mavenSnapshotRepoUrl = project.getObjects().property(String.class)
+        this.groupId = project.getObjects().property(String.class)
+        this.artifactId = project.getObjects().property(String.class)
+        this.currentVersion = project.getObjects().property(String.class)
+        this.outputFilePath = project.getObjects().property(String.class)
+        this.outputFormats = project.getObjects().listProperty(String.class)
+        this.mavenRepoUsername = project.getObjects().property(String.class)
+        this.mavenRepoPassword = project.getObjects().property(String.class)
+        this.deprecatedApiDeletionAllowed = project.getObjects().property(Boolean.class)
+        this.betaApiExtensionName = project.getObjects().property(String.class)
+        this.apiFilename = project.getObjects().property(String.class)
+        this.testModeEnabled = project.getObjects().property(Boolean.class)
     }
 }

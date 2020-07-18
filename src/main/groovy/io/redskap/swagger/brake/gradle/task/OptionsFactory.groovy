@@ -3,7 +3,12 @@ package io.redskap.swagger.brake.gradle.task
 import com.google.common.collect.ImmutableSet
 import io.redskap.swagger.brake.runner.Options
 import io.redskap.swagger.brake.runner.OutputFormat
+import org.apache.commons.collections4.CollectionUtils
 import org.apache.commons.lang3.StringUtils
+
+import java.util.stream.Collectors
+
+import static java.util.stream.Collectors.toSet
 
 class OptionsFactory {
     static Options create(CheckBreakingChangesTaskParameter parameter) {
@@ -26,10 +31,10 @@ class OptionsFactory {
     }
 
     private static Set<OutputFormat> resolveOutputFormat(CheckBreakingChangesTaskParameter parameter) {
-        def format = parameter.outputFormat
-        if (format == null) {
-            return Collections.emptySet();
+        def formats = parameter.outputFormats
+        if (CollectionUtils.isEmpty(formats)) {
+            return Collections.emptySet()
         }
-        return ImmutableSet.of(OutputFormat.valueOf(format.toUpperCase()))
+        return ImmutableSet.copyOf(formats.collect { OutputFormat.valueOf(it.toUpperCase()) })
     }
 }

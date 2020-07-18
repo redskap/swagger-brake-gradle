@@ -1,5 +1,20 @@
 package io.redskap.swagger.brake.gradle.task
 
+import io.redskap.swagger.brake.runner.OutputFormat
+import org.apache.commons.collections4.CollectionUtils
+import org.gradle.api.Project
+import org.gradle.api.provider.ListProperty
+import org.gradle.api.provider.Property
+
+import static org.apache.commons.lang3.StringUtils.isBlank
+import static org.apache.commons.lang3.StringUtils.isBlank
+import static org.apache.commons.lang3.StringUtils.isBlank
+import static org.apache.commons.lang3.StringUtils.isBlank
+import static org.apache.commons.lang3.StringUtils.isBlank
+import static org.apache.commons.lang3.StringUtils.isBlank
+import static org.apache.commons.lang3.StringUtils.isBlank
+import static org.apache.commons.lang3.StringUtils.isBlank
+
 class CheckBreakingChangesTaskParameter {
     String newApi
     String oldApi
@@ -9,7 +24,7 @@ class CheckBreakingChangesTaskParameter {
     String groupId
     String currentVersion
     String outputFilePath
-    String outputFormat
+    List<String> outputFormats
     String mavenRepoUsername
     String mavenRepoPassword
     Boolean deprecatedApiDeletionAllowed
@@ -27,7 +42,7 @@ class CheckBreakingChangesTaskParameter {
                 ", groupId='" + groupId + '\'' +
                 ", currentVersion='" + currentVersion + '\'' +
                 ", outputFilePath='" + outputFilePath + '\'' +
-                ", outputFormat='" + outputFormat + '\'' +
+                ", outputFormats=" + outputFormats +
                 ", mavenRepoUsername='" + mavenRepoUsername + '\'' +
                 ", mavenRepoPassword='" + mavenRepoPassword + '\'' +
                 ", deprecatedApiDeletionAllowed=" + deprecatedApiDeletionAllowed +

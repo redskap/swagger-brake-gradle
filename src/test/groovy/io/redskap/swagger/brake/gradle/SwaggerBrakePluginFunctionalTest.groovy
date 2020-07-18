@@ -8,6 +8,8 @@ import spock.lang.Specification
 import static org.gradle.testkit.runner.TaskOutcome.SUCCESS
 
 class SwaggerBrakePluginFunctionalTest extends Specification {
+    public static final String GRADLE_VERSION = "6.5.1"
+    public static final String TASK_NAME = "checkBreakingChanges"
     @Rule
     final TemporaryFolder testProjectDir = new TemporaryFolder()
 
@@ -31,9 +33,10 @@ class SwaggerBrakePluginFunctionalTest extends Specification {
                 id 'io.redskap.swagger-brake'
             }
 
+            group = 'io.redskap'
+            version = '2.0.0-SNAPSHOT' 
+
             swaggerBrake {
-                groupId = 'io.redskap'
-                currentVersion = '2.0.0-SNAPSHOT' 
                 mavenRepoUrl = "http://localhost:8081/artifactory/libs-release-local"
                 mavenSnapshotRepoUrl = "http://localhost:8081/artifactory/libs-snapshot-local"
                 newApi = "${testProjectDir.root.toString().replace('\\', '/')}/resources/main/swagger.yaml"
@@ -42,15 +45,80 @@ class SwaggerBrakePluginFunctionalTest extends Specification {
         """
 
         when:
-        def result = GradleRunner.create()
-                .withProjectDir(testProjectDir.root)
-                .withDebug(true)
-                .withPluginClasspath()
-                .withArguments("checkBreakingChanges")
-                .withGradleVersion("4.8")
-                .build()
+        def result = createGradleRunner().build()
 
         then:
         result.task(":checkBreakingChanges").outcome == SUCCESS
+    }
+
+    def "checkBreakingChanges task works with single output format"() {
+        given:
+        settingsFile << """
+            rootProject.name = 'swagger-brake-gradle-func-test'
+        """
+
+        buildFile << """
+            plugins {
+                id 'java'
+                id 'io.redskap.swagger-brake'
+            }
+
+            group = 'io.redskap'
+            version = '2.0.0-SNAPSHOT' 
+
+            swaggerBrake {
+                mavenRepoUrl = "http://localhost:8081/artifactory/libs-release-local"
+                mavenSnapshotRepoUrl = "http://localhost:8081/artifactory/libs-snapshot-local"
+                newApi = "${testProjectDir.root.toString().replace('\\', '/')}/resources/main/swagger.yaml"
+                outputFormats = ["HTML"]
+                testModeEnabled = true
+            }
+        """
+
+        when:
+        def result = createGradleRunner().build()
+
+        then:
+        result.task(":checkBreakingChanges").outcome == SUCCESS
+    }
+
+    def "checkBreakingChanges task works with multi output format"() {
+        given:
+        settingsFile << """
+            rootProject.name = 'swagger-brake-gradle-func-test'
+        """
+
+        buildFile << """
+            plugins {
+                id 'java'
+                id 'io.redskap.swagger-brake'
+            }
+
+            group = 'io.redskap'
+            version = '2.0.0-SNAPSHOT' 
+
+            swaggerBrake {
+                mavenRepoUrl = "http://localhost:8081/artifactory/libs-release-local"
+                mavenSnapshotRepoUrl = "http://localhost:8081/artifactory/libs-snapshot-local"
+                newApi = "${testProjectDir.root.toString().replace('\\', '/')}/resources/main/swagger.yaml"
+                outputFormats = ["HTML", "JSON"]
+                testModeEnabled = true
+            }
+        """
+
+        when:
+        def result = createGradleRunner().build()
+
+        then:
+        result.task(":checkBreakingChanges").outcome == SUCCESS
+    }
+
+    private GradleRunner createGradleRunner() {
+        GradleRunner.create()
+                .withProjectDir(testProjectDir.root)
+                .withDebug(true)
+                .withPluginClasspath()
+                .withArguments(TASK_NAME)
+                .withGradleVersion(GRADLE_VERSION)
     }
 }
