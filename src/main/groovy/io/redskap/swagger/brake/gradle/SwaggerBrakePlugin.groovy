@@ -29,6 +29,7 @@ class SwaggerBrakePlugin implements Plugin<Project>  {
                 checkBreakingChangesTask.getDeprecatedApiDeletionAllowed().set(extension.deprecatedApiDeletionAllowed)
                 checkBreakingChangesTask.getBetaApiExtensionName().set(extension.betaApiExtensionName)
                 checkBreakingChangesTask.getApiFilename().set(extension.apiFilename)
+                checkBreakingChangesTask.getExcludedPaths().set(extension.excludedPaths)
                 checkBreakingChangesTask.getTestModeEnabled().set(extension.testModeEnabled)
             }
         })

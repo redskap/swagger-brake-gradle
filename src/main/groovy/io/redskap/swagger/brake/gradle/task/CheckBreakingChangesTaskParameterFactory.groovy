@@ -8,6 +8,7 @@ import org.gradle.api.logging.Logging
 import org.gradle.api.provider.ListProperty
 import org.gradle.api.provider.Property
 
+import static java.util.Collections.emptyList
 import static org.apache.commons.lang3.StringUtils.isBlank
 
 class CheckBreakingChangesTaskParameterFactory {
@@ -28,7 +29,8 @@ class CheckBreakingChangesTaskParameterFactory {
             Property<String> mavenRepoPassword,
             Property<Boolean> deprecatedApiDeletionAllowed,
             Property<String> betaApiExtensionName,
-            Property<String> apiFilename
+            Property<String> apiFilename,
+            ListProperty<String> excludedPaths
     ) {
         def parameter = new CheckBreakingChangesTaskParameter()
         parameter.newApi = newApi.get()
@@ -45,6 +47,7 @@ class CheckBreakingChangesTaskParameterFactory {
         parameter.deprecatedApiDeletionAllowed = deprecatedApiDeletionAllowed.getOrElse(false)
         parameter.betaApiExtensionName = betaApiExtensionName.getOrElse(null)
         parameter.apiFilename = apiFilename.getOrElse(null)
+        parameter.excludedPaths = excludedPaths.getOrElse(emptyList())
         return parameter
     }
 

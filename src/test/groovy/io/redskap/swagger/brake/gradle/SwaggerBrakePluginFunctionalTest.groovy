@@ -113,6 +113,37 @@ class SwaggerBrakePluginFunctionalTest extends Specification {
         result.task(":checkBreakingChanges").outcome == SUCCESS
     }
 
+    def "checkBreakingChanges task works with multiple exclude paths"() {
+        given:
+        settingsFile << """
+            rootProject.name = 'swagger-brake-gradle-func-test'
+        """
+
+        buildFile << """
+            plugins {
+                id 'java'
+                id 'io.redskap.swagger-brake'
+            }
+
+            group = 'io.redskap'
+            version = '2.0.0-SNAPSHOT' 
+
+            swaggerBrake {
+                mavenRepoUrl = "http://localhost:8081/artifactory/libs-release-local"
+                mavenSnapshotRepoUrl = "http://localhost:8081/artifactory/libs-snapshot-local"
+                newApi = "${testProjectDir.root.toString().replace('\\', '/')}/resources/main/swagger.yaml"
+                excludedPaths = ["/path", "/test"]
+                testModeEnabled = true
+            }
+        """
+
+        when:
+        def result = createGradleRunner().build()
+
+        then:
+        result.task(":checkBreakingChanges").outcome == SUCCESS
+    }
+
     private GradleRunner createGradleRunner() {
         GradleRunner.create()
                 .withProjectDir(testProjectDir.root)

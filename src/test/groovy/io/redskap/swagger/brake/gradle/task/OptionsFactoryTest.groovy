@@ -1,6 +1,6 @@
 package io.redskap.swagger.brake.gradle.task
 
-
+import com.google.common.collect.Lists
 import spock.lang.Specification
 
 class OptionsFactoryTest extends Specification {
@@ -18,6 +18,7 @@ class OptionsFactoryTest extends Specification {
         parameter.mavenRepoUsername = "username"
         parameter.mavenRepoPassword = "password"
         parameter.deprecatedApiDeletionAllowed = true
+        parameter.excludedPaths = Lists.newArrayList("/path", "/test")
 
         when:
         def result = underTest.create(parameter)
@@ -32,6 +33,7 @@ class OptionsFactoryTest extends Specification {
         assert result.mavenRepoPassword == parameter.mavenRepoPassword
         assert result.outputFormats[0].name() == 'HTML'
         assert result.deprecatedApiDeletionAllowed == parameter.deprecatedApiDeletionAllowed
+        assert result.excludedPaths.sort() == parameter.excludedPaths.sort()
     }
 
     def "OutputFormat is accepted when it's a lowercase value"() {

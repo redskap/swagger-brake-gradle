@@ -51,6 +51,9 @@ class CheckBreakingChangesTask extends DefaultTask {
     @Input
     @Optional
     final Property<String> apiFilename = getProject().getObjects().property(String.class)
+    @Input
+    @Optional
+    final ListProperty<String> excludedPaths = getProject().getObjects().listProperty(String.class)
 
     @Input
     @Optional
@@ -75,7 +78,8 @@ class CheckBreakingChangesTask extends DefaultTask {
                 this.mavenRepoPassword,
                 this.deprecatedApiDeletionAllowed,
                 this.betaApiExtensionName,
-                this.apiFilename
+                this.apiFilename,
+                this.excludedPaths
         )
         logger.info("The following parameters are set for the task {}", parameter)
         def options = OptionsFactory.create(parameter)

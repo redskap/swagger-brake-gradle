@@ -1,14 +1,14 @@
 package io.redskap.swagger.brake.gradle.task
 
 import com.google.common.collect.ImmutableSet
+import com.google.common.collect.Sets
 import io.redskap.swagger.brake.runner.Options
 import io.redskap.swagger.brake.runner.OutputFormat
 import org.apache.commons.collections4.CollectionUtils
 import org.apache.commons.lang3.StringUtils
 
-import java.util.stream.Collectors
-
-import static java.util.stream.Collectors.toSet
+import static java.util.Collections.emptyList
+import static java.util.Collections.emptySet
 
 class OptionsFactory {
     static Options create(CheckBreakingChangesTaskParameter parameter) {
@@ -27,13 +27,14 @@ class OptionsFactory {
         options.setDeprecatedApiDeletionAllowed(parameter.deprecatedApiDeletionAllowed)
         options.setBetaApiExtensionName(StringUtils.defaultIfBlank(parameter.betaApiExtensionName, null))
         options.setApiFilename(StringUtils.defaultIfBlank(parameter.apiFilename, null))
+        options.setExcludedPaths(Sets.newHashSet(Optional.ofNullable(parameter.excludedPaths).orElse(emptyList())))
         return options
     }
 
     private static Set<OutputFormat> resolveOutputFormat(CheckBreakingChangesTaskParameter parameter) {
         def formats = parameter.outputFormats
         if (CollectionUtils.isEmpty(formats)) {
-            return Collections.emptySet()
+            return emptySet()
         }
         return ImmutableSet.copyOf(formats.collect { OutputFormat.valueOf(it.toUpperCase()) })
     }

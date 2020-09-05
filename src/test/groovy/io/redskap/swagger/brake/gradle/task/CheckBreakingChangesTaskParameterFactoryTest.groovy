@@ -1,9 +1,14 @@
 package io.redskap.swagger.brake.gradle.task
 
+import com.google.common.collect.Lists
+import com.google.common.collect.Sets
 import org.gradle.api.Project
 import org.gradle.api.provider.ListProperty
 import org.gradle.api.provider.Property
 import spock.lang.Specification
+
+import static java.util.Collections.emptyList
+import static java.util.Collections.emptySet
 
 class CheckBreakingChangesTaskParameterFactoryTest extends Specification {
     private Project project = Mock(Project)
@@ -21,6 +26,7 @@ class CheckBreakingChangesTaskParameterFactoryTest extends Specification {
     private Property<Boolean> deprecatedApiDeletionAllowed = Mock(Property)
     private Property<String> betaApiExtensionName = Mock(Property)
     private Property<String> apiFilename = Mock(Property)
+    private ListProperty<String> excludedPaths = Mock(ListProperty)
 
     private CheckBreakingChangesTaskParameterFactory underTest = new CheckBreakingChangesTaskParameterFactory()
 
@@ -40,6 +46,7 @@ class CheckBreakingChangesTaskParameterFactoryTest extends Specification {
         def deprecatedApiDeletionAllowedVal = true
         def betaApiExtensionNameVal = "betaApiExtensionName"
         def apiFilenameVal = "apiFilename"
+        def excludedPathsVal = Lists.newArrayList("/path")
 
         and:
         newApi.get() >> newApiVal
@@ -56,6 +63,7 @@ class CheckBreakingChangesTaskParameterFactoryTest extends Specification {
         deprecatedApiDeletionAllowed.getOrElse(false) >> deprecatedApiDeletionAllowedVal
         betaApiExtensionName.getOrElse(null) >> betaApiExtensionNameVal
         apiFilename.getOrElse(null) >> apiFilenameVal
+        excludedPaths.getOrElse(emptyList()) >> excludedPathsVal
 
 
         when:
@@ -74,7 +82,8 @@ class CheckBreakingChangesTaskParameterFactoryTest extends Specification {
                 mavenRepoPassword,
                 deprecatedApiDeletionAllowed,
                 betaApiExtensionName,
-                apiFilename
+                apiFilename,
+                excludedPaths
         )
         
         then:
@@ -92,6 +101,7 @@ class CheckBreakingChangesTaskParameterFactoryTest extends Specification {
         assert result.deprecatedApiDeletionAllowed == deprecatedApiDeletionAllowedVal
         assert result.betaApiExtensionName == betaApiExtensionNameVal
         assert result.apiFilename == apiFilenameVal
+        assert result.excludedPaths == excludedPathsVal
     }
 
 
@@ -116,6 +126,7 @@ class CheckBreakingChangesTaskParameterFactoryTest extends Specification {
         currentVersion.getOrElse(null) >> null
         outputFilePath.getOrElse(null) >> null
         deprecatedApiDeletionAllowed.getOrElse(false) >> deprecatedApiDeletionAllowedVal
+        excludedPaths.getOrElse(emptyList()) >> emptyList()
         project.getBuildDir() >> buildDir
         project.getGroup() >> groupIdVal
         project.getName() >> artifactIdVal
@@ -138,7 +149,8 @@ class CheckBreakingChangesTaskParameterFactoryTest extends Specification {
                 mavenRepoPassword,
                 deprecatedApiDeletionAllowed,
                 betaApiExtensionName,
-                apiFilename
+                apiFilename,
+                excludedPaths
         )
 
         then:
@@ -151,5 +163,6 @@ class CheckBreakingChangesTaskParameterFactoryTest extends Specification {
         assert result.outputFilePath == "${outputFilePathVal}/swagger-brake/"
         assert result.outputFormats == ["HTML"]
         assert result.deprecatedApiDeletionAllowed == deprecatedApiDeletionAllowedVal
+        assert result.excludedPaths == emptyList()
     }
 }

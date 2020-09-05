@@ -24,6 +24,7 @@ class SwaggerBrakeExtension {
     final Property<Boolean> deprecatedApiDeletionAllowed
     final Property<String> betaApiExtensionName
     final Property<String> apiFilename
+    final ListProperty<String> excludedPaths
 
     final Property<Boolean> testModeEnabled
 
@@ -42,6 +43,7 @@ class SwaggerBrakeExtension {
         this.deprecatedApiDeletionAllowed = project.getObjects().property(Boolean.class)
         this.betaApiExtensionName = project.getObjects().property(String.class)
         this.apiFilename = project.getObjects().property(String.class)
+        this.excludedPaths = project.getObjects().listProperty(String.class)
         this.testModeEnabled = project.getObjects().property(Boolean.class)
     }
 }
