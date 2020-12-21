@@ -8,7 +8,7 @@ plugins {
 }
 
 group 'io.redskap'
-version '2.2.0-SNAPSHOT'
+version '2.2.0'
 
 sourceCompatibility = 1.8
 
