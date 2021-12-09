@@ -1,5 +1,6 @@
 package io.redskap.swagger.brake.gradle.task
 
+import io.redskap.swagger.brake.runner.ArtifactPackaging
 import io.redskap.swagger.brake.runner.OutputFormat
 import org.apache.commons.collections4.CollectionUtils
 import org.gradle.api.Project
@@ -23,6 +24,7 @@ class CheckBreakingChangesTaskParameterFactory {
             Property<String> artifactId,
             Property<String> groupId,
             Property<String> currentVersion,
+            Property<String> artifactPackaging,
             Property<String> outputFilePath,
             ListProperty<String> outputFormats,
             Property<String> mavenRepoUsername,
@@ -40,6 +42,7 @@ class CheckBreakingChangesTaskParameterFactory {
         parameter.artifactId = getArtifactIdParam(project, artifactId)
         parameter.groupId = getGroupIdParam(project, groupId)
         parameter.currentVersion = getCurrentVersionParam(project, currentVersion)
+        parameter.artifactPackaging = getArtifactPackaging(project, artifactPackaging);
         parameter.outputFilePath = getOutputFilePathParam(project, outputFilePath)
         parameter.outputFormats = getOutputFormatParam(outputFormats)
         parameter.mavenRepoUsername = mavenRepoUsername.getOrElse(null)
@@ -49,6 +52,21 @@ class CheckBreakingChangesTaskParameterFactory {
         parameter.apiFilename = apiFilename.getOrElse(null)
         parameter.excludedPaths = excludedPaths.getOrElse(emptyList())
         return parameter
+    }
+
+    static String getArtifactPackaging(Project project, Property<String> artifactPackagingProp) {
+        def artifactPackaging = artifactPackagingProp.getOrElse(null);
+        if (isBlank(artifactPackaging)) {
+            def hasWarPlugin = project.getPlugins().hasPlugin("war")
+            if (hasWarPlugin) {
+                artifactPackaging = ArtifactPackaging.WAR.getPackaging()
+            } else {
+                artifactPackaging = ArtifactPackaging.JAR.getPackaging()
+            }
+            return artifactPackaging;
+        } else {
+            return artifactPackaging
+        }
     }
 
     static String getGroupIdParam(Project project, Property<String> groupIdProp) {

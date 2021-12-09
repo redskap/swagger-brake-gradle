@@ -22,6 +22,7 @@ class SwaggerBrakePlugin implements Plugin<Project>  {
                 checkBreakingChangesTask.getArtifactId().set(extension.artifactId)
                 checkBreakingChangesTask.getGroupId().set(extension.groupId)
                 checkBreakingChangesTask.getCurrentVersion().set(extension.currentVersion)
+                checkBreakingChangesTask.getArtifactPackaging().set(extension.artifactPackaging)
                 checkBreakingChangesTask.getOutputFilePath().set(extension.outputFilePath)
                 checkBreakingChangesTask.getOutputFormats().set(extension.outputFormats)
                 checkBreakingChangesTask.getMavenRepoUsername().set(extension.mavenRepoUsername)

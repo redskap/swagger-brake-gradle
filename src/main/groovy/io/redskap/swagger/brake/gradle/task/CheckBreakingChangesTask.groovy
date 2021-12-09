@@ -32,6 +32,9 @@ class CheckBreakingChangesTask extends DefaultTask {
     final Property<String> currentVersion = getProject().getObjects().property(String.class)
     @Input
     @Optional
+    final Property<String> artifactPackaging = getProject().getObjects().property(String.class)
+    @Input
+    @Optional
     final Property<String> outputFilePath = getProject().getObjects().property(String.class)
     @Input
     @Optional
@@ -72,6 +75,7 @@ class CheckBreakingChangesTask extends DefaultTask {
                 this.artifactId,
                 this.groupId,
                 this.currentVersion,
+                this.artifactPackaging,
                 this.outputFilePath,
                 this.outputFormats,
                 this.mavenRepoUsername,

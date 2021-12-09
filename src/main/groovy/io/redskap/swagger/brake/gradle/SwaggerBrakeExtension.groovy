@@ -17,6 +17,7 @@ class SwaggerBrakeExtension {
     final Property<String> groupId
     final Property<String> artifactId
     final Property<String> currentVersion
+    final Property<String> artifactPackaging
     final Property<String> outputFilePath
     final ListProperty<String> outputFormats
     final Property<String> mavenRepoUsername
@@ -36,6 +37,7 @@ class SwaggerBrakeExtension {
         this.groupId = project.getObjects().property(String.class)
         this.artifactId = project.getObjects().property(String.class)
         this.currentVersion = project.getObjects().property(String.class)
+        this.artifactPackaging = project.getObjects().property(String.class)
         this.outputFilePath = project.getObjects().property(String.class)
         this.outputFormats = project.getObjects().listProperty(String.class)
         this.mavenRepoUsername = project.getObjects().property(String.class)

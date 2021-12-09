@@ -23,6 +23,7 @@ class CheckBreakingChangesTaskParameter {
     String artifactId
     String groupId
     String currentVersion
+    String artifactPackaging
     String outputFilePath
     List<String> outputFormats
     String mavenRepoUsername
@@ -32,8 +33,9 @@ class CheckBreakingChangesTaskParameter {
     String apiFilename
     List<String> excludedPaths
 
+
     @Override
-    String toString() {
+    public String toString() {
         return "CheckBreakingChangesTaskParameter{" +
                 "newApi='" + newApi + '\'' +
                 ", oldApi='" + oldApi + '\'' +
@@ -42,6 +44,7 @@ class CheckBreakingChangesTaskParameter {
                 ", artifactId='" + artifactId + '\'' +
                 ", groupId='" + groupId + '\'' +
                 ", currentVersion='" + currentVersion + '\'' +
+                ", artifactPackaging='" + artifactPackaging + '\'' +
                 ", outputFilePath='" + outputFilePath + '\'' +
                 ", outputFormats=" + outputFormats +
                 ", mavenRepoUsername='" + mavenRepoUsername + '\'' +
@@ -49,7 +52,7 @@ class CheckBreakingChangesTaskParameter {
                 ", deprecatedApiDeletionAllowed=" + deprecatedApiDeletionAllowed +
                 ", betaApiExtensionName='" + betaApiExtensionName + '\'' +
                 ", apiFilename='" + apiFilename + '\'' +
-                ", excludedPaths='" + excludedPaths + '\'' +
+                ", excludedPaths=" + excludedPaths +
                 '}';
     }
 }

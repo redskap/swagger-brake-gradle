@@ -3,6 +3,7 @@ package io.redskap.swagger.brake.gradle.task
 import com.google.common.collect.Lists
 import com.google.common.collect.Sets
 import org.gradle.api.Project
+import org.gradle.api.plugins.PluginContainer
 import org.gradle.api.provider.ListProperty
 import org.gradle.api.provider.Property
 import spock.lang.Specification
@@ -12,6 +13,7 @@ import static java.util.Collections.emptySet
 
 class CheckBreakingChangesTaskParameterFactoryTest extends Specification {
     private Project project = Mock(Project)
+    private PluginContainer pluginContainer = Mock(PluginContainer)
     private Property<String> newApi = Mock(Property)
     private Property<String> oldApi = Mock(Property)
     private Property<String> mavenRepoUrl = Mock(Property)
@@ -19,6 +21,7 @@ class CheckBreakingChangesTaskParameterFactoryTest extends Specification {
     private Property<String> artifactId = Mock(Property)
     private Property<String> groupId = Mock(Property)
     private Property<String> currentVersion = Mock(Property)
+    private Property<String> artifactPackaging = Mock(Property)
     private Property<String> outputFilePath = Mock(Property)
     private ListProperty<String> outputFormats = Mock(ListProperty)
     private Property<String> mavenRepoUsername = Mock(Property)
@@ -41,6 +44,7 @@ class CheckBreakingChangesTaskParameterFactoryTest extends Specification {
         def artifactIdVal = "artifactId"
         def groupIdVal = "groupId"
         def currentVersionVal = "1.0.0"
+        def artifactPackagingVal = "jar"
         def outputFilePathVal = "outputFilePath"
         def outputFormatsVal = ["HTML", "JSON"]
         def deprecatedApiDeletionAllowedVal = true
@@ -56,6 +60,7 @@ class CheckBreakingChangesTaskParameterFactoryTest extends Specification {
         artifactId.getOrElse(null) >> artifactIdVal
         groupId.getOrElse(null) >> groupIdVal
         currentVersion.getOrElse(null) >> currentVersionVal
+        artifactPackaging.getOrElse(null) >> artifactPackagingVal
         outputFilePath.getOrElse(null) >> outputFilePathVal
         outputFormats.getOrElse([]) >> outputFormatsVal
         mavenRepoUsername.getOrElse(null) >> mavenRepoUsernameVal
@@ -64,6 +69,8 @@ class CheckBreakingChangesTaskParameterFactoryTest extends Specification {
         betaApiExtensionName.getOrElse(null) >> betaApiExtensionNameVal
         apiFilename.getOrElse(null) >> apiFilenameVal
         excludedPaths.getOrElse(emptyList()) >> excludedPathsVal
+        project.getPlugins() >> pluginContainer
+        pluginContainer.hasPlugin("war") >> false
 
 
         when:
@@ -76,6 +83,7 @@ class CheckBreakingChangesTaskParameterFactoryTest extends Specification {
                 artifactId,
                 groupId,
                 currentVersion,
+                artifactPackaging,
                 outputFilePath,
                 outputFormats,
                 mavenRepoUsername,
@@ -94,6 +102,7 @@ class CheckBreakingChangesTaskParameterFactoryTest extends Specification {
         assert result.artifactId == artifactIdVal
         assert result.groupId == groupIdVal
         assert result.currentVersion == currentVersionVal
+        assert result.artifactPackaging == artifactPackagingVal
         assert result.outputFilePath == outputFilePathVal
         assert result.outputFormats == outputFormatsVal
         assert result.mavenRepoUsername == mavenRepoUsernameVal
@@ -131,6 +140,8 @@ class CheckBreakingChangesTaskParameterFactoryTest extends Specification {
         project.getGroup() >> groupIdVal
         project.getName() >> artifactIdVal
         project.getVersion() >> currentVersionVal
+        project.getPlugins() >> pluginContainer
+        pluginContainer.hasPlugin("war") >> false
 
 
         when:
@@ -143,6 +154,7 @@ class CheckBreakingChangesTaskParameterFactoryTest extends Specification {
                 artifactId,
                 groupId,
                 currentVersion,
+                artifactPackaging,
                 outputFilePath,
                 outputFormats,
                 mavenRepoUsername,
@@ -160,6 +172,7 @@ class CheckBreakingChangesTaskParameterFactoryTest extends Specification {
         assert result.artifactId == artifactIdVal
         assert result.groupId == groupIdVal
         assert result.currentVersion == currentVersionVal
+        assert result.artifactPackaging == "jar"
         assert result.outputFilePath == "${outputFilePathVal}/swagger-brake/"
         assert result.outputFormats == ["HTML"]
         assert result.deprecatedApiDeletionAllowed == deprecatedApiDeletionAllowedVal

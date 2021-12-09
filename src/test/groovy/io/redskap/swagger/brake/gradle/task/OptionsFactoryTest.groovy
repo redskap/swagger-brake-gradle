@@ -1,6 +1,7 @@
 package io.redskap.swagger.brake.gradle.task
 
 import com.google.common.collect.Lists
+import io.redskap.swagger.brake.runner.ArtifactPackaging
 import spock.lang.Specification
 
 class OptionsFactoryTest extends Specification {
@@ -56,6 +57,125 @@ class OptionsFactoryTest extends Specification {
         assert result.groupId == parameter.groupId
         assert result.outputFilePath == parameter.outputFilePath
         assert result.outputFormats[0].name() == 'HTML'
+    }
+
+    def "ArtifactPackaging is accepted when it's a lowercase JAR value"() {
+        given:
+        def parameter = new CheckBreakingChangesTaskParameter()
+        parameter.mavenRepoUrl = "repo"
+        parameter.newApi = "newApi"
+        parameter.artifactId = "artifactId"
+        parameter.groupId = "groupId"
+        parameter.artifactPackaging = "jar"
+
+        when:
+        def result = underTest.create(parameter)
+
+        then:
+        assert result.mavenRepoUrl == parameter.mavenRepoUrl
+        assert result.newApiPath == parameter.newApi
+        assert result.artifactId == parameter.artifactId
+        assert result.groupId == parameter.groupId
+        assert result.artifactPackaging == ArtifactPackaging.JAR
+    }
+
+    def "ArtifactPackaging is accepted when it's a uppercase JAR value"() {
+        given:
+        def parameter = new CheckBreakingChangesTaskParameter()
+        parameter.mavenRepoUrl = "repo"
+        parameter.newApi = "newApi"
+        parameter.artifactId = "artifactId"
+        parameter.groupId = "groupId"
+        parameter.artifactPackaging = "JAR"
+
+        when:
+        def result = underTest.create(parameter)
+
+        then:
+        assert result.mavenRepoUrl == parameter.mavenRepoUrl
+        assert result.newApiPath == parameter.newApi
+        assert result.artifactId == parameter.artifactId
+        assert result.groupId == parameter.groupId
+        assert result.artifactPackaging == ArtifactPackaging.JAR
+    }
+
+    def "ArtifactPackaging is accepted when it's a uppercase non-trimmed JAR value"() {
+        given:
+        def parameter = new CheckBreakingChangesTaskParameter()
+        parameter.mavenRepoUrl = "repo"
+        parameter.newApi = "newApi"
+        parameter.artifactId = "artifactId"
+        parameter.groupId = "groupId"
+        parameter.artifactPackaging = "     JAR   "
+
+        when:
+        def result = underTest.create(parameter)
+
+        then:
+        assert result.mavenRepoUrl == parameter.mavenRepoUrl
+        assert result.newApiPath == parameter.newApi
+        assert result.artifactId == parameter.artifactId
+        assert result.groupId == parameter.groupId
+        assert result.artifactPackaging == ArtifactPackaging.JAR
+    }
+
+    def "ArtifactPackaging is set to JAR when none provided"() {
+        given:
+        def parameter = new CheckBreakingChangesTaskParameter()
+        parameter.mavenRepoUrl = "repo"
+        parameter.newApi = "newApi"
+        parameter.artifactId = "artifactId"
+        parameter.groupId = "groupId"
+
+        when:
+        def result = underTest.create(parameter)
+
+        then:
+        assert result.mavenRepoUrl == parameter.mavenRepoUrl
+        assert result.newApiPath == parameter.newApi
+        assert result.artifactId == parameter.artifactId
+        assert result.groupId == parameter.groupId
+        assert result.artifactPackaging == ArtifactPackaging.JAR
+    }
+
+    def "ArtifactPackaging is accepted when it's a lowercase WAR value"() {
+        given:
+        def parameter = new CheckBreakingChangesTaskParameter()
+        parameter.mavenRepoUrl = "repo"
+        parameter.newApi = "newApi"
+        parameter.artifactId = "artifactId"
+        parameter.groupId = "groupId"
+        parameter.artifactPackaging = "war"
+
+        when:
+        def result = underTest.create(parameter)
+
+        then:
+        assert result.mavenRepoUrl == parameter.mavenRepoUrl
+        assert result.newApiPath == parameter.newApi
+        assert result.artifactId == parameter.artifactId
+        assert result.groupId == parameter.groupId
+        assert result.artifactPackaging == ArtifactPackaging.WAR
+    }
+
+    def "ArtifactPackaging is accepted when it's a uppercase WAR value"() {
+        given:
+        def parameter = new CheckBreakingChangesTaskParameter()
+        parameter.mavenRepoUrl = "repo"
+        parameter.newApi = "newApi"
+        parameter.artifactId = "artifactId"
+        parameter.groupId = "groupId"
+        parameter.artifactPackaging = "WAR"
+
+        when:
+        def result = underTest.create(parameter)
+
+        then:
+        assert result.mavenRepoUrl == parameter.mavenRepoUrl
+        assert result.newApiPath == parameter.newApi
+        assert result.artifactId == parameter.artifactId
+        assert result.groupId == parameter.groupId
+        assert result.artifactPackaging == ArtifactPackaging.WAR
     }
 
     def "create throws exception when unavailable output format"() {

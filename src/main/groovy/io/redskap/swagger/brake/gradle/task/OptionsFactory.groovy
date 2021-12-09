@@ -2,6 +2,7 @@ package io.redskap.swagger.brake.gradle.task
 
 import com.google.common.collect.ImmutableSet
 import com.google.common.collect.Sets
+import io.redskap.swagger.brake.runner.ArtifactPackaging
 import io.redskap.swagger.brake.runner.Options
 import io.redskap.swagger.brake.runner.OutputFormat
 import org.apache.commons.collections4.CollectionUtils
@@ -20,6 +21,7 @@ class OptionsFactory {
         options.setArtifactId(parameter.artifactId)
         options.setGroupId(parameter.groupId)
         options.setCurrentArtifactVersion(parameter.currentVersion)
+        options.setArtifactPackaging(resolveArtifactPackaging(parameter))
         options.setOutputFilePath(parameter.outputFilePath)
         options.setOutputFormats(resolveOutputFormat(parameter))
         options.setMavenRepoUsername(parameter.mavenRepoUsername)
@@ -37,5 +39,13 @@ class OptionsFactory {
             return emptySet()
         }
         return ImmutableSet.copyOf(formats.collect { OutputFormat.valueOf(it.toUpperCase()) })
+    }
+
+    private static ArtifactPackaging resolveArtifactPackaging(CheckBreakingChangesTaskParameter parameter) {
+        String artifactPackaging = parameter.getArtifactPackaging();
+        if (StringUtils.isBlank(artifactPackaging)) {
+            return ArtifactPackaging.JAR;
+        }
+        return ArtifactPackaging.forPackaging(artifactPackaging.trim().toLowerCase());
     }
 }
