@@ -1,24 +1,24 @@
 package io.redskap.swagger.brake.gradle
 
 import org.gradle.testkit.runner.GradleRunner
-import org.junit.Rule
-import org.junit.rules.TemporaryFolder
 import spock.lang.Specification
+import spock.lang.TempDir
 
 import static org.gradle.testkit.runner.TaskOutcome.SUCCESS
 
 class SwaggerBrakePluginFunctionalTest extends Specification {
-    public static final String GRADLE_VERSION = "6.5.1"
+    public static final String GRADLE_VERSION = "8.3"
     public static final String TASK_NAME = "checkBreakingChanges"
-    @Rule
-    final TemporaryFolder testProjectDir = new TemporaryFolder()
+
+    @TempDir
+    File testProjectDir
 
     File buildFile
     File settingsFile
 
     def setup() {
-        buildFile = testProjectDir.newFile('build.gradle')
-        settingsFile = testProjectDir.newFile('settings.gradle')
+        buildFile = new File(testProjectDir, 'build.gradle')
+        settingsFile = new File(testProjectDir, 'settings.gradle')
     }
 
     def "checkBreakingChanges task works"() {
@@ -39,7 +39,7 @@ class SwaggerBrakePluginFunctionalTest extends Specification {
             swaggerBrake {
                 mavenRepoUrl = "http://localhost:8081/artifactory/libs-release-local"
                 mavenSnapshotRepoUrl = "http://localhost:8081/artifactory/libs-snapshot-local"
-                newApi = "${testProjectDir.root.toString().replace('\\', '/')}/resources/main/swagger.yaml"
+                newApi = "${testProjectDir.getAbsolutePath().replace('\\', '/')}/resources/main/swagger.yaml"
                 testModeEnabled = true
             }
         """
@@ -69,7 +69,7 @@ class SwaggerBrakePluginFunctionalTest extends Specification {
             swaggerBrake {
                 mavenRepoUrl = "http://localhost:8081/artifactory/libs-release-local"
                 mavenSnapshotRepoUrl = "http://localhost:8081/artifactory/libs-snapshot-local"
-                newApi = "${testProjectDir.root.toString().replace('\\', '/')}/resources/main/swagger.yaml"
+                newApi = "${testProjectDir.getAbsolutePath().replace('\\', '/')}/resources/main/swagger.yaml"
                 outputFormats = ["HTML"]
                 testModeEnabled = true
             }
@@ -100,7 +100,7 @@ class SwaggerBrakePluginFunctionalTest extends Specification {
             swaggerBrake {
                 mavenRepoUrl = "http://localhost:8081/artifactory/libs-release-local"
                 mavenSnapshotRepoUrl = "http://localhost:8081/artifactory/libs-snapshot-local"
-                newApi = "${testProjectDir.root.toString().replace('\\', '/')}/resources/main/swagger.yaml"
+                newApi = "${testProjectDir.getAbsolutePath().replace('\\', '/')}/resources/main/swagger.yaml"
                 outputFormats = ["HTML", "JSON"]
                 testModeEnabled = true
             }
@@ -131,7 +131,7 @@ class SwaggerBrakePluginFunctionalTest extends Specification {
             swaggerBrake {
                 mavenRepoUrl = "http://localhost:8081/artifactory/libs-release-local"
                 mavenSnapshotRepoUrl = "http://localhost:8081/artifactory/libs-snapshot-local"
-                newApi = "${testProjectDir.root.toString().replace('\\', '/')}/resources/main/swagger.yaml"
+                newApi = "${testProjectDir.getAbsolutePath().replace('\\', '/')}/resources/main/swagger.yaml"
                 excludedPaths = ["/path", "/test"]
                 testModeEnabled = true
             }
@@ -146,7 +146,7 @@ class SwaggerBrakePluginFunctionalTest extends Specification {
 
     private GradleRunner createGradleRunner() {
         GradleRunner.create()
-                .withProjectDir(testProjectDir.root)
+                .withProjectDir(testProjectDir)
                 .withDebug(true)
                 .withPluginClasspath()
                 .withArguments(TASK_NAME)

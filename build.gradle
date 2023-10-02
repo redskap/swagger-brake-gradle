@@ -1,35 +1,29 @@
 plugins {
-    id 'groovy'
-    id 'java-gradle-plugin'
-    id 'maven'
-    id 'maven-publish'
-    id 'com.gradle.plugin-publish' version '0.12.0'
+    id 'groovy-gradle-plugin'
+    id 'com.gradle.plugin-publish' version '1.1.0'
     id 'signing'
 }
 
 group 'io.redskap'
 version '2.4.0-SNAPSHOT'
 
-sourceCompatibility = 1.8
+
+tasks.withType(JavaCompile).configureEach {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+}
 
 gradlePlugin {
+    website = 'http://redskap.io'
+    vcsUrl = 'https://github.com/redskap/swagger-brake-gradle'
+
     plugins {
         swaggerBrake {
             id = 'io.redskap.swagger-brake'
+            displayName = "Swagger Brake Gradle plugin"
+            description = 'A plugin to check Swagger definition files for any breaking API changes'
+            tags.addAll('swagger', 'api', 'breaking-change', 'REST')
             implementationClass = 'io.redskap.swagger.brake.gradle.SwaggerBrakePlugin'
-        }
-    }
-}
-
-pluginBundle {
-    website = 'http://redskap.io'
-    vcsUrl = 'https://github.com/redskap/swagger-brake-gradle'
-    description = 'A plugin to check Swagger definition files for any breaking API changes'
-    tags = ['swagger', 'api', 'breaking-change', 'REST']
-
-    plugins {
-        swaggerBrake {
-            displayName = 'Swagger Brake Gradle plugin'
         }
     }
 }
@@ -43,80 +37,21 @@ repositories {
 }
 
 dependencies {
-    compile "io.redskap:swagger-brake:2.3.0"
+    implementation "io.redskap:swagger-brake:2.4.0"
+    implementation "org.apache.commons:commons-collections4:4.4"
+    implementation "org.apache.commons:commons-lang3:3.13.0"
+    implementation 'com.google.guava:guava:32.1.2-jre'
 
-    testCompile "net.bytebuddy:byte-buddy:1.9.12"
-    testCompile "org.objenesis:objenesis:3.0.1"
-    testCompile ("org.spockframework:spock-core:1.2-groovy-2.4") {
+    testImplementation "net.bytebuddy:byte-buddy:1.9.12"
+    testImplementation "org.objenesis:objenesis:3.0.1"
+    testImplementation ("org.spockframework:spock-core:2.3-groovy-3.0") {
         exclude group:'org.codehaus.groovy'
     }
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.10.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.10.0'
     testImplementation gradleTestKit()
 }
 
-task javadocJar(type: Jar) {
-    classifier = 'javadoc'
-    from javadoc
+tasks.withType(Test).configureEach {
+    useJUnitPlatform()
 }
-
-task sourcesJar(type: Jar) {
-    classifier = 'sources'
-    from sourceSets.main.allSource
-}
-
-artifacts {
-    archives javadocJar, sourcesJar
-}
-
-//<editor-fold desc="Uploading to central">
-if (project.hasProperty('signing.keyId')) {
-    signing {
-        sign configurations.archives
-    }
-}
-
-if (project.hasProperty('ossrhUsername') && project.hasProperty('ossrhPassword')) {
-    uploadArchives {
-        repositories {
-            mavenDeployer {
-                beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
-
-                repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
-                    authentication(userName: ossrhUsername, password: ossrhPassword)
-                }
-
-                snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
-                    authentication(userName: ossrhUsername, password: ossrhPassword)
-                }
-
-                pom.project {
-                    name 'Swagger Brake'
-                    packaging 'jar'
-                    description 'Swagger contract checker for breaking API changes'
-                    url 'https://github.com/redskap/swagger-brake'
-
-                    scm {
-                        connection 'scm:git:git://github.com/redskap/swagger-brake.git'
-                        developerConnection 'scm:git:ssh://github.com:redskap/swagger-brake.git'
-                        url 'https://github.com/redskap/swagger-brake'
-                    }
-
-                    licenses {
-                        license {
-                            name 'The Apache License, Version 2.0'
-                            url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-                        }
-                    }
-
-                    developers {
-                        developer {
-                            id 'galovics'
-                            name 'Arnold Galovics'
-                            email 'info@arnoldgalovics.com'
-                        }
-                    }
-                }
-            }
-        }
-    }
-}
-//</editor-fold>
