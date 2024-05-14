@@ -37,7 +37,7 @@ repositories {
 }
 
 dependencies {
-    implementation "io.redskap:swagger-brake:2.4.0"
+    implementation "io.redskap:swagger-brake:2.5.0-SNAPSHOT"
     implementation "org.apache.commons:commons-collections4:4.4"
     implementation "org.apache.commons:commons-lang3:3.13.0"
     implementation 'com.google.guava:guava:32.1.2-jre'

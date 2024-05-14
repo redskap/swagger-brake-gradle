@@ -20,6 +20,7 @@ class OptionsFactoryTest extends Specification {
         parameter.mavenRepoPassword = "password"
         parameter.deprecatedApiDeletionAllowed = true
         parameter.excludedPaths = Lists.newArrayList("/path", "/test")
+        parameter.ignoredBreakingChangeRules = Lists.newArrayList("R002", "R001")
 
         when:
         def result = underTest.create(parameter)
@@ -35,6 +36,7 @@ class OptionsFactoryTest extends Specification {
         assert result.outputFormats[0].name() == 'HTML'
         assert result.deprecatedApiDeletionAllowed == parameter.deprecatedApiDeletionAllowed
         assert result.excludedPaths.sort() == parameter.excludedPaths.sort()
+        assert result.ignoredBreakingChangeRules.sort() == parameter.ignoredBreakingChangeRules.sort()
     }
 
     def "OutputFormat is accepted when it's a lowercase value"() {

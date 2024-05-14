@@ -32,7 +32,8 @@ class CheckBreakingChangesTaskParameterFactory {
             Property<Boolean> deprecatedApiDeletionAllowed,
             Property<String> betaApiExtensionName,
             Property<String> apiFilename,
-            ListProperty<String> excludedPaths
+            ListProperty<String> excludedPaths,
+            ListProperty<String> ignoredBreakingChangeRules
     ) {
         def parameter = new CheckBreakingChangesTaskParameter()
         parameter.newApi = newApi.get()
@@ -51,6 +52,7 @@ class CheckBreakingChangesTaskParameterFactory {
         parameter.betaApiExtensionName = betaApiExtensionName.getOrElse(null)
         parameter.apiFilename = apiFilename.getOrElse(null)
         parameter.excludedPaths = excludedPaths.getOrElse(emptyList())
+        parameter.ignoredBreakingChangeRules = ignoredBreakingChangeRules.getOrElse(emptyList())
         return parameter
     }
 

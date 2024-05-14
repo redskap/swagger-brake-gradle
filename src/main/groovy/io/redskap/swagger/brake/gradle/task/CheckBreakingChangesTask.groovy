@@ -57,6 +57,9 @@ class CheckBreakingChangesTask extends DefaultTask {
     @Input
     @Optional
     final ListProperty<String> excludedPaths = getProject().getObjects().listProperty(String.class)
+    @Input
+    @Optional
+    final ListProperty<String> ignoredBreakingChangeRules = getProject().getObjects().listProperty(String.class)
 
     @Input
     @Optional
@@ -83,7 +86,8 @@ class CheckBreakingChangesTask extends DefaultTask {
                 this.deprecatedApiDeletionAllowed,
                 this.betaApiExtensionName,
                 this.apiFilename,
-                this.excludedPaths
+                this.excludedPaths,
+                this.ignoredBreakingChangeRules
         )
         logger.info("The following parameters are set for the task {}", parameter)
         def options = OptionsFactory.create(parameter)

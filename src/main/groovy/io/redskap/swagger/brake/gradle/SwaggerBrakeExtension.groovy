@@ -26,6 +26,7 @@ class SwaggerBrakeExtension {
     final Property<String> betaApiExtensionName
     final Property<String> apiFilename
     final ListProperty<String> excludedPaths
+    final ListProperty<String> ignoredBreakingChangeRules
 
     final Property<Boolean> testModeEnabled
 
@@ -46,6 +47,7 @@ class SwaggerBrakeExtension {
         this.betaApiExtensionName = project.getObjects().property(String.class)
         this.apiFilename = project.getObjects().property(String.class)
         this.excludedPaths = project.getObjects().listProperty(String.class)
+        this.ignoredBreakingChangeRules = project.getObjects().listProperty(String.class)
         this.testModeEnabled = project.getObjects().property(Boolean.class)
     }
 }

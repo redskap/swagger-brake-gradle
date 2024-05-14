@@ -30,6 +30,7 @@ class CheckBreakingChangesTaskParameterFactoryTest extends Specification {
     private Property<String> betaApiExtensionName = Mock(Property)
     private Property<String> apiFilename = Mock(Property)
     private ListProperty<String> excludedPaths = Mock(ListProperty)
+    private ListProperty<String> ignoredBreakingChangeRules = Mock(ListProperty)
 
     private CheckBreakingChangesTaskParameterFactory underTest = new CheckBreakingChangesTaskParameterFactory()
 
@@ -51,6 +52,7 @@ class CheckBreakingChangesTaskParameterFactoryTest extends Specification {
         def betaApiExtensionNameVal = "betaApiExtensionName"
         def apiFilenameVal = "apiFilename"
         def excludedPathsVal = Lists.newArrayList("/path")
+        def ignoredBreakingChangeRulesVal = Lists.newArrayList("R002")
 
         and:
         newApi.get() >> newApiVal
@@ -69,6 +71,7 @@ class CheckBreakingChangesTaskParameterFactoryTest extends Specification {
         betaApiExtensionName.getOrElse(null) >> betaApiExtensionNameVal
         apiFilename.getOrElse(null) >> apiFilenameVal
         excludedPaths.getOrElse(emptyList()) >> excludedPathsVal
+        ignoredBreakingChangeRules.getOrElse(emptyList()) >> ignoredBreakingChangeRulesVal
         project.getPlugins() >> pluginContainer
         pluginContainer.hasPlugin("war") >> false
 
@@ -91,7 +94,8 @@ class CheckBreakingChangesTaskParameterFactoryTest extends Specification {
                 deprecatedApiDeletionAllowed,
                 betaApiExtensionName,
                 apiFilename,
-                excludedPaths
+                excludedPaths,
+                ignoredBreakingChangeRules
         )
         
         then:
@@ -111,6 +115,7 @@ class CheckBreakingChangesTaskParameterFactoryTest extends Specification {
         assert result.betaApiExtensionName == betaApiExtensionNameVal
         assert result.apiFilename == apiFilenameVal
         assert result.excludedPaths == excludedPathsVal
+        assert result.ignoredBreakingChangeRules == ignoredBreakingChangeRulesVal
     }
 
 
@@ -136,6 +141,7 @@ class CheckBreakingChangesTaskParameterFactoryTest extends Specification {
         outputFilePath.getOrElse(null) >> null
         deprecatedApiDeletionAllowed.getOrElse(false) >> deprecatedApiDeletionAllowedVal
         excludedPaths.getOrElse(emptyList()) >> emptyList()
+        ignoredBreakingChangeRules.getOrElse(emptyList()) >> emptyList()
         project.getBuildDir() >> buildDir
         project.getGroup() >> groupIdVal
         project.getName() >> artifactIdVal
@@ -162,7 +168,8 @@ class CheckBreakingChangesTaskParameterFactoryTest extends Specification {
                 deprecatedApiDeletionAllowed,
                 betaApiExtensionName,
                 apiFilename,
-                excludedPaths
+                excludedPaths,
+                ignoredBreakingChangeRules
         )
 
         then:
@@ -177,5 +184,6 @@ class CheckBreakingChangesTaskParameterFactoryTest extends Specification {
         assert result.outputFormats == ["HTML"]
         assert result.deprecatedApiDeletionAllowed == deprecatedApiDeletionAllowedVal
         assert result.excludedPaths == emptyList()
+        assert result.ignoredBreakingChangeRules == emptyList()
     }
 }

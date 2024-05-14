@@ -17,6 +17,7 @@ class CheckBreakingChangesTaskParameter {
     String betaApiExtensionName
     String apiFilename
     List<String> excludedPaths
+    List<String> ignoredBreakingChangeRules
 
 
     @Override
@@ -37,7 +38,8 @@ class CheckBreakingChangesTaskParameter {
                 ", deprecatedApiDeletionAllowed=" + deprecatedApiDeletionAllowed +
                 ", betaApiExtensionName='" + betaApiExtensionName + '\'' +
                 ", apiFilename='" + apiFilename + '\'' +
-                ", excludedPaths=" + excludedPaths +
+                ", excludedPaths=" + excludedPaths + '\'' +
+                ", ignoredBreakingChangeRules=" + ignoredBreakingChangeRules + '\'' +
                 '}';
     }
 }

@@ -31,6 +31,7 @@ class SwaggerBrakePlugin implements Plugin<Project>  {
                 checkBreakingChangesTask.getBetaApiExtensionName().set(extension.betaApiExtensionName)
                 checkBreakingChangesTask.getApiFilename().set(extension.apiFilename)
                 checkBreakingChangesTask.getExcludedPaths().set(extension.excludedPaths)
+                checkBreakingChangesTask.getIgnoredBreakingChangeRules().set(extension.ignoredBreakingChangeRules)
                 checkBreakingChangesTask.getTestModeEnabled().set(extension.testModeEnabled)
             }
         })
